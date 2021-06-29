@@ -20,7 +20,7 @@ if ($IsWindows) {
 
 #region Authentication variables and setup
 [SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '')]
-$OAuth =  @{
+$script:OAuth =  @{
     ApiKey = $null
     ApiSecret = $null
     AccessToken = $null

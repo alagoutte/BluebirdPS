@@ -4,7 +4,7 @@
   PowerShellVersion = '7.0'
   RootModule = 'BluebirdPS.psm1'
   CompanyName = 'thedavecarroll'
-  ModuleVersion = '0.7.0'
+  ModuleVersion = '0.8.0'
   Author = 'Dave Carroll'
   CompatiblePSEditions = 'Core'
   FileList = @()
@@ -41,7 +41,7 @@
       ProjectUri = 'https://github.com/thedavecarroll/BluebirdPS'
     }
   }
-  CmdletsToExport = @()
+  CmdletsToExport = 'Import-BlulebirdPSConfiguration','Get-TwitterUser','Invoke-TwitterRequest'
   VariablesToExport = @()
   Description = 'A Twitter Automation Client for PowerShell 7. Tweet, retweet, send direct messages, manage lists, and more.'
   FunctionsToExport = @()

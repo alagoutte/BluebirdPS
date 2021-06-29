@@ -15,5 +15,10 @@
   <ItemGroup>
     <PackageReference Include="System.Management.Automation" Version="7.0.0" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Cmdlets\API\APIV1\" />
+    <Folder Include="Cmdlets\Private\" />
+  </ItemGroup>
  
 </Project>

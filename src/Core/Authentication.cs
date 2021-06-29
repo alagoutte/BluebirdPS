@@ -128,7 +128,7 @@ namespace BluebirdPS
 
             if (Uri.Query != string.Empty)
             {
-                foreach (string query in Uri.UnescapeDataString(Uri.Query).Substring(1).Split('&'))
+                foreach (string query in Uri.UnescapeDataString(Uri.Query)[1..].Split('&'))
                 {
                     string[] queryFields = query.Split('=');
                     OAuthParameter parameter = new OAuthParameter(queryFields[0], queryFields[1], false);

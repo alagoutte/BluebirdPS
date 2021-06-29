@@ -5,6 +5,8 @@ using System.Management.Automation;
 using System.Management.Automation.Runspaces;
 using System.Text;
 using System.Text.RegularExpressions;
+using BluebirdPS;
+using System.IO;
 
 namespace BluebirdPS
 {
@@ -34,8 +36,8 @@ namespace BluebirdPS
         public DateTime? AuthLastExportDate { get; set; }
         public RateLimitAction RateLimitAction { get; set; } = RateLimitAction.Warning;
         public int RateLimitThreshold { get; set; } = 5;
-        public string ConfigurationPath { get; set; }
-        public string CredentialsPath { get; set; }
+        public string ConfigurationPath { get; set; } = Metadata.ConfigSavePath;
+        public string CredentialsPath { get; set; } = Metadata.CredentialsSavePath;
         public OutputType OutputType { get; set; } = OutputType.CustomClasses;
         public Configuration() { }
 

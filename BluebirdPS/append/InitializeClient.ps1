@@ -23,7 +23,7 @@ Register-ArgumentCompleter -CommandName Get-TwitterApiEndpoint -ParameterName Co
 }
 
 # store EndpointInfo in module variable
-$BluebirdPSCommands = Get-Command -Module BluebirdPS -ListImported
+<# $BluebirdPSCommands = Get-Command -Module BluebirdPS -ListImported
 
 [SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '')]
 $script:TwitterEndpoints = foreach ($Command in $BluebirdPSCommands) {
@@ -39,5 +39,5 @@ $script:TwitterEndpoints = foreach ($Command in $BluebirdPSCommands) {
         $ApiEndpoint,
         $ApiDocumentation
     )
-}
+} #>
 #endregion

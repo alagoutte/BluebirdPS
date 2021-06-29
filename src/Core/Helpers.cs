@@ -229,6 +229,49 @@ namespace BluebirdPS
 
             return twitterResponse;
         }
+
+        public static string GetErrorCategory(string errorType)
+        {            
+            if (Metadata.ErrorCategoryV2.ContainsKey(errorType))
+            {
+                return Metadata.ErrorCategoryV2[errorType].ToString();
+            } else
+            {
+                return "NotSpecified";
+            }
+        }
+    
+        public static string GetErrorCategory(int statusCode, int errorCode)
+        {
+
+            switch (statusCode)
+            {
+                case 406:
+                    return "InvalidData";
+                case 415:
+                    return "LimitsExceeded";
+                case 420:
+                    return "QuotaExceeded";
+                case 422:
+                    return errorCode == 404 ? "InvalidOperation" : "InvalidArgument";
+                default:
+                    foreach (KeyValuePair<int, Hashtable> kvp in Metadata.ErrorCategoryV1)
+                    {
+
+                        if (kvp.Key == statusCode)
+                        {
+                            Hashtable nested = (Hashtable)Metadata.ErrorCategoryV1[kvp.Key];
+                            if (nested.ContainsKey(errorCode))
+                            {
+                                return nested[errorCode].ToString();
+                            }
+
+                        }
+                    }
+                    break;
+            }
             
+            return "NotSpecified";
+        }
     }
 }

@@ -132,5 +132,17 @@ namespace BluebirdPS
              _hasExpansionsIncluded = true;
         }
 
+        //public void InvokeRequest()
+        //{            
+        //    using (PowerShell pwsh = PowerShell.Create(RunspaceMode.CurrentRunspace))
+        //    {
+        //        pwsh.AddCommand("Invoke-TwitterRequest").AddParameter("RequestParameters", this);
+        //        var response = pwsh.Invoke();
+        //        if (response != null)
+        //        {
+        //            ICommandRuntime.WriteObject(response, true);
+        //        }                
+        //    }           
+        //}
     }
 }
