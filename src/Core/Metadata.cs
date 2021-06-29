@@ -12,8 +12,8 @@ namespace BluebirdPS
         internal static OAuthCredentials OAuth { get; set; } = new OAuthCredentials();
         internal static Configuration Configuration { get; set; }
         internal static List<ResponseData> History { get; set; }
-        internal static string ConfigSavePath { get; } = Path.Join(GetFileSavePath(), "Configuration.Json");
-        internal static string CredentialsSavePath { get; } = Path.Join(GetFileSavePath(), "twittercred.sav");
+        internal static string ConfigSavePath { get; } = Path.Join(Helpers. GetFileSavePath(), "Configuration.Json");
+        internal static string CredentialsSavePath { get; } = Path.Join(Helpers.GetFileSavePath(), "twittercred.sav");
         internal static Hashtable ErrorCategoryV2 { get; } = new Hashtable
         {
             { "about:blank", "NotSpecified" },
@@ -141,32 +141,8 @@ namespace BluebirdPS
                 }
             }
         };
-        internal static string GetFileSavePath()
-        {
-            return Platform.IsWindows ?
-                    Path.Join(Environment.GetEnvironmentVariable("USERPROFILE"), ".BluebirdPS") :
-                    Path.Join(Environment.GetEnvironmentVariable("HOME"), ".BluebirdPS");
-        }
         internal static int LastStatusCode {get; set;}
         internal static object ResponseHeaders {get; set;}
-    }
-
-    internal class OAuthCredentials
-    {
-        internal string ApiKey { get; set; }
-        internal string ApiSecret { get; set; }
-        internal string AccessToken { get; set; }
-        internal string AccessTokenSecret { get; set; }
-        internal string BearerToken { get; set; }
-
-        internal OAuthCredentials()
-        {
-            ApiKey = Environment.GetEnvironmentVariable("BLUEBIRDPS_API_KEY");
-            ApiSecret = Environment.GetEnvironmentVariable("BLUEBIRDPS_API_SECRET");
-            AccessToken = Environment.GetEnvironmentVariable("BLUEBIRDPS_ACCESS_TOKEN");
-            AccessTokenSecret = Environment.GetEnvironmentVariable("BLUEBIRDPS_ACCESS_TOKEN_SECRET");
-            BearerToken = Environment.GetEnvironmentVariable("BLUEBIRDPS_BEARER_TOKEN");
-        }
     }
 
 }

@@ -23,6 +23,7 @@ namespace BluebirdPS.Cmdlets
             {
                 RequestParameters = request
             };
+
             WriteObject(apiRequest.Invoke<object>());
         }
 

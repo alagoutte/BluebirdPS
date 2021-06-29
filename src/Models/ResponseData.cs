@@ -30,7 +30,7 @@ namespace BluebirdPS
         public dynamic ApiResponse { get; set; }
 
         public ResponseData() { }
-        public ResponseData(TwitterRequest request, Authentication authentication, dynamic headerResponse, HttpStatusCode statusCode, dynamic apiResponse)
+        public ResponseData(TwitterRequest request, Authentication authentication, dynamic headerResponse, HttpStatusCode statusCode, object apiResponse)
         {
             try
             {
@@ -43,10 +43,10 @@ namespace BluebirdPS
                 QueryString = authentication.Uri.Query;
                 Body = request.Body;
                 Form = request.Form;
-                OAuthVersion = request.OAuthVersion;
-                Status = statusCode;
+                OAuthVersion = request.OAuthVersion;                
                 ApiResponse = apiResponse;
                 ApiVersion = request.GetAPIVersion();
+                Status = statusCode;
 
                 SetHeaderVariables(headerResponse);
             }

@@ -18,7 +18,6 @@
 
   <ItemGroup>
     <Folder Include="Cmdlets\API\APIV1\" />
-    <Folder Include="Cmdlets\Private\" />
   </ItemGroup>
  
 </Project>

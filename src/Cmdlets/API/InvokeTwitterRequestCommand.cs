@@ -5,6 +5,10 @@ using System.Management.Automation;
 using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.ObjectModel;
+using System.Xml.Serialization;
+using BluebirdPS;
+using System.Net;
+using System.Linq;
 
 namespace BluebirdPS.Cmdlets
 {
@@ -12,6 +16,7 @@ namespace BluebirdPS.Cmdlets
     public class InvokeTwitterRequestCommand : Cmdlet
     {
         [Parameter(Mandatory = true, ValueFromPipeline = true)]
+        [ValidateObjectNotNullOrEmpty()]
         public TwitterRequest RequestParameters { get; set; }
 
         Authentication _authentication;
@@ -55,14 +60,39 @@ namespace BluebirdPS.Cmdlets
                 pwsh.AddCommand("Invoke-RestMethod")
                     .AddParameter("Uri", _authentication.Uri)
                     .AddParameter("Method", _authentication.HttpMethod)
-                    .AddParameter("Headers", new Hashtable() { { "Authorization", _authentication.AuthHeader } })
-                    .AddParameter("ContentType", RequestParameters.ContentType)
+                    .AddParameter("Headers", new Hashtable() { 
+                        { "Authorization", _authentication.AuthHeader },
+                        { "ContentType", RequestParameters.ContentType}
+                    })
                     .AddParameter("ResponseHeadersVariable", "ResponseHeaders")
                     .AddParameter("StatusCodeVariable", "StatusCode")
                     .AddParameter("SkipHttpErrorCheck", true)
-                    .AddParameter("Verbose", true);
+                    .AddParameter("Verbose", false);
+
+                if (RequestParameters.Form != null)
+                {
+                    pwsh.AddParameter("Form", RequestParameters.Form);
+                }
+                if (RequestParameters.Body != null)
+                {
+                    pwsh.AddParameter("Body", RequestParameters.Body);
+                }
 
                 Collection<PSObject> apiResponse = pwsh.Invoke();
+                pwsh.Commands.Clear();
+
+                PSObject responseHeaders = Helpers.GetVariable("ResponseHeaders");
+                HttpStatusCode statusCode = (HttpStatusCode)Helpers.GetVariable("StatusCode").BaseObject;
+
+                ResponseData twitterResponse = new ResponseData(RequestParameters, _authentication, responseHeaders, statusCode, apiResponse);
+
+                Helpers.SetVariable("Response", twitterResponse, "Global");
+                WriteTwitterResponseCommand writeResponse = new WriteTwitterResponseCommand()
+                {
+                    ResponseData = twitterResponse
+                };
+
+                WriteObject(writeResponse.Invoke<object>());
 
             }
         }
