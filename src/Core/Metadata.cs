@@ -10,10 +10,8 @@ namespace BluebirdPS
     internal class Metadata
     {
         internal static OAuthCredentials OAuth { get; set; } = new OAuthCredentials();
-        internal static Configuration Configuration { get; set; }
-        internal static List<ResponseData> History { get; set; }
-        internal static string ConfigSavePath { get; } = Path.Join(Helpers. GetFileSavePath(), "Configuration.Json");
-        internal static string CredentialsSavePath { get; } = Path.Join(Helpers.GetFileSavePath(), "twittercred.sav");
+        internal static Configuration Configuration { get; set; } = new Configuration();
+        internal static List<ResponseData> History { get; set; } = new List<ResponseData>();
         internal static Hashtable ErrorCategoryV2 { get; } = new Hashtable
         {
             { "about:blank", "NotSpecified" },

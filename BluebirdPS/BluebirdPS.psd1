@@ -41,7 +41,14 @@
       ProjectUri = 'https://github.com/thedavecarroll/BluebirdPS'
     }
   }
-  CmdletsToExport = 'Import-BlulebirdPSConfiguration','Get-TwitterUser','Invoke-TwitterRequest'
+  CmdletsToExport = 'Invoke-TwitterRequest',
+    'Get-BluebirdPSConfiguration',
+    'Set-BluebirdPSConfiguration',
+    'Import-BluebirdPSConfiguration',
+    'Export-BluebirdPSConfiguration',
+    'Get-BluebirdPSHistory',
+    'Get-TwitterUser'
+
   VariablesToExport = @()
   Description = 'A Twitter Automation Client for PowerShell 7. Tweet, retweet, send direct messages, manage lists, and more.'
   FunctionsToExport = @()

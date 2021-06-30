@@ -21,9 +21,9 @@ namespace BluebirdPS
         public OAuthVersion OAuthVersion { get; set; }
         public HttpStatusCode Status { get; set; }
         public string Server { get; set; }
-        public string ResponseTime { get; set; }
-        public string RateLimit { get; set; }
-        public string RateLimitRemaining { get; set; }
+        public int? ResponseTime { get; set; }
+        public int? RateLimit { get; set; }
+        public int? RateLimitRemaining { get; set; }
         public DateTime RateLimitReset { get; set; }
         public Hashtable HeaderResponse { get; set; }
         public string ApiVersion { get; set; }
@@ -76,7 +76,7 @@ namespace BluebirdPS
                     {
                         if (headers.ContainsKey(kvp.Key) == false)
                         {
-                            headers.Add(kvp.Key, values.First());
+                            headers.Add(kvp.Key, values.First().ToString());
                         }
                     }
                 }
@@ -84,16 +84,30 @@ namespace BluebirdPS
             }
             HeaderResponse = headers;
 
-            Server = (string)HeaderResponse["Server"];
-            ResponseTime = HeaderResponse.ContainsKey("x-response-time") ? (string)HeaderResponse["x-response-time"] : null;
+            try {
 
-            RateLimit = HeaderResponse.ContainsKey("x-rate-limit-limit") ? (string)HeaderResponse["x-rate-limit-limit"] : null;
-            RateLimitRemaining = HeaderResponse.ContainsKey("x-rate-limit-remaining") ? (string)HeaderResponse["x-rate-limit-remaining"] : null;
-                
-            if (HeaderResponse.ContainsKey("x-rate-limit-reset") && HeaderResponse["x-rate-limit-reset"] != null)
+                Server = (string)HeaderResponse["Server"];
+                if (HeaderResponse.ContainsKey("x-response-time"))
+                {
+                    ResponseTime = int.Parse((string)HeaderResponse["x-response-time"]);
+                }
+                if (HeaderResponse.ContainsKey("x-rate-limit-limit"))
+                {
+                    RateLimit = int.Parse((string)HeaderResponse["x-rate-limit-limit"]);
+                }
+                if (HeaderResponse.ContainsKey("x-rate-limit-remaining"))
+                {
+                    RateLimitRemaining = int.Parse((string)HeaderResponse["x-rate-limit-remaining"]);
+                }
+                if (HeaderResponse.ContainsKey("x-rate-limit-reset") && HeaderResponse["x-rate-limit-reset"] != null)
+                {
+                    DateTime resetTime = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+                    RateLimitReset = resetTime.AddSeconds(int.Parse((string)HeaderResponse["x-rate-limit-reset"])).ToLocalTime();
+                }
+            }
+            catch
             {
-                DateTime resetTime = new DateTime(1970, 1, 1, 0, 0, 0, 0);
-                RateLimitReset = resetTime.AddSeconds(int.Parse((string)HeaderResponse["x-rate-limit-reset"])).ToLocalTime();
+
             }
         }
     }

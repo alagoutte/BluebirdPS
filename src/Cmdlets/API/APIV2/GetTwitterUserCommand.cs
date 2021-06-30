@@ -4,6 +4,7 @@ using System.Text;
 using System.Management.Automation;
 using BluebirdPS;
 using System.Management.Automation.Runspaces;
+using System.Linq;
 
 namespace BluebirdPS.Cmdlets
 {

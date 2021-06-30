@@ -9,6 +9,7 @@ using BluebirdPS.APIV2.Objects;
 using System.Collections;
 using System.IO;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace BluebirdPS
 {
@@ -110,10 +111,10 @@ namespace BluebirdPS
         {
             using (PowerShell pwsh = PowerShell.Create(RunspaceMode.CurrentRunspace))
             {
-                Collection<PSObject> variableInfo = pwsh.AddCommand("Get-Variable").AddParameter("Name", variableName).AddParameter("ValueOnly", true).Invoke();
+                var variableInfo = pwsh.AddCommand("Get-Variable").AddParameter("Name", variableName).AddParameter("ValueOnly", true).Invoke().ToList();
                 foreach (PSObject variable in variableInfo)
-                {
-                    return variable;                    
+                {                    
+                    return variable;
                 }
             }
             return null;

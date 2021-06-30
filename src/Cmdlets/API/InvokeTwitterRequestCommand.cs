@@ -78,23 +78,77 @@ namespace BluebirdPS.Cmdlets
                     pwsh.AddParameter("Body", RequestParameters.Body);
                 }
 
-                Collection<PSObject> apiResponse = pwsh.Invoke();
+                PSObject apiResponse = pwsh.Invoke().ToList()[0];
                 pwsh.Commands.Clear();
-
-                PSObject responseHeaders = Helpers.GetVariable("ResponseHeaders");
+                
+                var responseHeaders = Helpers.GetVariable("ResponseHeaders").BaseObject;
                 HttpStatusCode statusCode = (HttpStatusCode)Helpers.GetVariable("StatusCode").BaseObject;
+                Metadata.LastStatusCode = (int)statusCode;
 
                 ResponseData twitterResponse = new ResponseData(RequestParameters, _authentication, responseHeaders, statusCode, apiResponse);
 
-                Helpers.SetVariable("Response", twitterResponse, "Global");
-                WriteTwitterResponseCommand writeResponse = new WriteTwitterResponseCommand()
-                {
-                    ResponseData = twitterResponse
-                };
-
-                WriteObject(writeResponse.Invoke<object>());
-
+                CheckRateLimit(twitterResponse);
+                AddResponseToHistory(twitterResponse);
+                WriteResponse(twitterResponse);
             }
+        }
+
+        private void CheckRateLimit(ResponseData responseData)
+        {
+            string errorId = $"APIv{responseData.ApiVersion}-{responseData.Command}";
+
+            if (responseData.RateLimitRemaining == 0)
+            {
+                string rateLimitMessage = $"Rate limit of {responseData.RateLimit} has been reached. Please wait until {responseData.RateLimitReset} before making another attempt for this resource.";
+                LimitsExceededException exception = new LimitsExceededException(rateLimitMessage);
+                ThrowTerminatingError(new ErrorRecord(exception, errorId, ErrorCategory.LimitsExceeded, responseData.Endpoint));
+            }
+
+            if (responseData.RateLimitRemaining < Metadata.Configuration.RateLimitThreshold)
+            {
+                string rateLimitMessage = $"The rate limit for this resource is {responseData.RateLimit}. There are {responseData.RateLimitRemaining} remaining calls to this resource until {responseData.RateLimitReset}";
+                switch (Metadata.Configuration.RateLimitAction)
+                {
+                    case RateLimitAction.Verbose:
+                        WriteVerbose(rateLimitMessage);
+                        break;
+                    case RateLimitAction.Warning:
+                        WriteWarning(rateLimitMessage);
+                        break;
+                    case RateLimitAction.Error:
+                        LimitsExceededException exception = new LimitsExceededException(rateLimitMessage);
+                        WriteError(new ErrorRecord(exception, errorId, ErrorCategory.LimitsExceeded, responseData.Endpoint));
+                        break;
+                }
+            }
+        }
+
+        private void AddResponseToHistory(ResponseData responseData)
+        {
+            Metadata.History.Add(responseData);
+            WriteInformation(new InformationRecord(responseData,"BluebirdPS"));
+        }
+
+        private void WriteResponse(ResponseData responseData)
+        {
+            switch (Metadata.Configuration.OutputType)
+            {
+                case OutputType.PSCustomObject:
+                    WriteObject(responseData.ApiResponse);
+                    return;
+                case OutputType.JSON:
+                    string jsonOutput = JsonConvert.SerializeObject(responseData.ApiResponse, Formatting.Indented);
+                    WriteObject(jsonOutput);
+                    return;
+                case OutputType.CustomClasses:
+                    WriteCustomClasses(responseData.ApiResponse);
+                    break;
+            }
+        }
+
+        private void WriteCustomClasses(dynamic apiResponse)
+        {
+
         }
     }
 }

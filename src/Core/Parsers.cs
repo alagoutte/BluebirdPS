@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Management.Automation;
 using System.Text;
 using BluebirdPS;
 using BluebirdPS.APIV1;
@@ -140,7 +141,29 @@ namespace BluebirdPS
             }
         };
 
-        public static List<object> ParseApiV2Response(dynamic input)
+        internal static Exception GetTwitterAPIException(string exceptionType, string errorMessage)
+        {
+            return exceptionType switch
+            {
+                "AuthenticationException" => new AuthenticationException(errorMessage),
+                "InvalidOperationException" => new InvalidOperationException(errorMessage),
+                "InvalidArgumentException" => new InvalidArgumentException(errorMessage),
+                "LimitsExceededException" => new LimitsExceededException(errorMessage),
+                "ResourceViolationException" => new ResourceViolationException(errorMessage),
+                "ResourceNotFoundException" => new ResourceNotFoundException(errorMessage),
+                "SecurityException" => new SecurityException(errorMessage),
+                "ConnectionException" => new ConnectionException(errorMessage),
+                "UnspecifiedException" => new UnspecifiedException(errorMessage),
+                _ => new UnspecifiedException(errorMessage),
+            };
+        }
+
+        //internal static ErrorRecord TwitterAPIErrorRecord(ResponseData responseData)
+        //{
+        //    return new NotImplementedException();
+        //}
+
+        internal static List<object> ParseApiV2Response(dynamic input)
         {
             List<object> twitterResponse = new List<object>();
 
@@ -208,7 +231,7 @@ namespace BluebirdPS
 
             return twitterResponse;
         }
-        public static List<object> ParseApiV1Response(dynamic input)
+        internal static List<object> ParseApiV1Response(dynamic input)
         {
             List<object> twitterResponse = new List<object>();
 

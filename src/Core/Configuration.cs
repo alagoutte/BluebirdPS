@@ -36,9 +36,9 @@ namespace BluebirdPS
         public DateTime? AuthLastExportDate { get; set; }
         public RateLimitAction RateLimitAction { get; set; } = RateLimitAction.Warning;
         public int RateLimitThreshold { get; set; } = 5;
-        public string ConfigurationPath { get; set; } = Metadata.ConfigSavePath;
-        public string CredentialsPath { get; set; } = Metadata.CredentialsSavePath;
-        public OutputType OutputType { get; set; } = OutputType.CustomClasses;
+        public string ConfigurationPath { get; set; } = Path.Join(Helpers.GetFileSavePath(), "Configuration.Json");
+        public string CredentialsPath { get; set; } = Path.Join(Helpers.GetFileSavePath(), "twittercred.sav");
+        public OutputType OutputType { get; set; } = OutputType.JSON;
         public Configuration() { }
 
     }
