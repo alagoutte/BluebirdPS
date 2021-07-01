@@ -1,6 +1,7 @@
 ﻿using System;
 using BluebirdPS.APIV2.MediaInfo.Metrics;
 using BluebirdPS.APIV2.Objects;
+using BluebirdPS.Models;
 
 namespace BluebirdPS.APIV2.MediaInfo
 {

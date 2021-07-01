@@ -1,6 +1,7 @@
 using BluebirdPS.APIV2.Objects;
 using System;
 using System.Collections.Generic;
+using BluebirdPS.Models;
 
 namespace BluebirdPS.APIV2.UserInfo
 {

@@ -1,167 +1,205 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Management.Automation;
-using System.Text;
-using BluebirdPS;
+using System.Text.Json;
+using Newtonsoft.Json;
 using BluebirdPS.APIV1;
 using BluebirdPS.APIV2.Objects;
 using BluebirdPS.APIV2.TweetInfo;
 using BluebirdPS.APIV2.UserInfo;
+using BluebirdPS.Exceptions;
 
-namespace BluebirdPS
+namespace BluebirdPS.Core
 {
     public class Parsers
-    {
-        internal static Hashtable ErrorCategoryV2 { get; } = new Hashtable
+    {        
+        public static string GetErrorCategory(string errorType)
         {
-            { "about:blank", "NotSpecified" },
-            { "https://api.twitter.com/2/problems/not-authorized-for-resource", "PermissionDenied"},
-            { "https://api.twitter.com/2/problems/not-authorized-for-field", "PermissionDenied" },
-            { "https://api.twitter.com/2/problems/invalid-request", "InvalidArgument" },
-            { "https://api.twitter.com/2/problems/client-forbidden", "PermissionDenied"},
-            { "https://api.twitter.com/2/problems/disallowed-resource", "PermissionDenied"},
-            { "https://api.twitter.com/2/problems/unsupported-authentication", "AuthenticationError" },
-            { "https://api.twitter.com/2/problems/usage-capped", "QuotaExceeded" },
-            { "https://api.twitter.com/2/problems/streaming-connection", "ConnectionError" },
-            { "https://api.twitter.com/2/problems/client-disconnected", "ConnectionError" },
-            { "https://api.twitter.com/2/problems/operational-disconnect", "ResourceUnavailable"},
-            { "https://api.twitter.com/2/problems/rule-cap", "QuotaExceeded" },
-            { "https://api.twitter.com/2/problems/invalid-rules", "InvalidArgument" },
-            { "https://api.twitter.com/2/problems/duplicate-rules", "InvalidOperation" },
-            { "https://api.twitter.com/2/problems/resource-not-found", "ObjectNotFound" }
-        };
-        internal static Hashtable ErrorCategoryV1 { get; } = new Hashtable()
-        {
-            { 400, new Hashtable()
-                {
-                    { 324, "OperationStopped" },
-                    { 325, "ObjectNotFound" },
-                    { 323, "InvalidOperation" },
-                    { 110, "InvalidOperation" },
-                    { 215, "AuthenticationError" },
-                    { 3, "InvalidArgument" },
-                    { 7, "InvalidArgument" },
-                    { 8, "InvalidArgument" },
-                    { 44, "InvalidArgument" },
-                    { 407, "ResourceUnavailable" }
-                }
-            },
-            { 401, new Hashtable()
-                {
-                    { 417, "AuthenticationError" },
-                    { 135, "AuthenticationError" },
-                    { 32, "AuthenticationError" },
-                    { 416, "AuthenticationError" }
-                }
-            },
-            { 403, new Hashtable()
-                {
-                    { 326, "SecurityError" },
-                    { 200, "InvalidOperation" },
-                    { 272, "InvalidOperation" },
-                    { 160, "InvalidOperation" },
-                    { 203, "InvalidOperation" },
-                    { 431, "InvalidOperation" },
-                    { 386, "QuotaExceeded" },
-                    { 205, "QuotaExceeded" },
-                    { 226, "QuotaExceeded" },
-                    { 327, "QuotaExceeded" },
-                    { 99, "AuthenticationError" },
-                    { 89, "AuthenticationError" },
-                    { 195, "ConnectionError" },
-                    { 92, "ConnectionError" },
-                    { 354, "InvalidArgument" },
-                    { 186, "InvalidArgument" },
-                    { 38, "InvalidArgument" },
-                    { 120, "InvalidArgument" },
-                    { 163, "InvalidArgument" },
-                    { 214, "PermissionDenied" },
-                    { 220, "PermissionDenied" },
-                    { 261, "PermissionDenied" },
-                    { 187, "PermissionDenied" },
-                    { 349, "PermissionDenied" },
-                    { 385, "PermissionDenied" },
-                    { 415, "PermissionDenied" },
-                    { 271, "PermissionDenied" },
-                    { 185, "PermissionDenied" },
-                    { 36, "PermissionDenied" },
-                    { 63, "PermissionDenied" },
-                    { 64, "PermissionDenied" },
-                    { 87, "PermissionDenied" },
-                    { 179, "PermissionDenied" },
-                    { 93, "PermissionDenied" },
-                    { 433, "PermissionDenied" },
-                    { 139, "PermissionDenied" },
-                    { 150, "PermissionDenied" },
-                    { 151, "PermissionDenied" },
-                    { 161, "PermissionDenied" },
-                    { 425, "PermissionDenied" }
-                }
-            },
-            { 404, new Hashtable()
-                {
-                    { 34, "ObjectNotFound" },
-                    { 108, "ObjectNotFound" },
-                    { 109, "ObjectNotFound" },
-                    { 422, "ObjectNotFound" },
-                    { 421, "ObjectNotFound" },
-                    { 13, "ObjectNotFound" },
-                    { 17, "ObjectNotFound" },
-                    { 144, "ObjectNotFound" },
-                    { 50, "ObjectNotFound" },
-                    { 25, "InvalidArgument" }
-                }
-            },
-            { 409, new Hashtable()
-                {
-                    { 355, "InvalidOperation" }
-                }
-            },
-            { 410, new Hashtable()
-                {
-                    { 68, "ConnectionError" },
-                    { 251, "NotImplemented" }
-                }
-            },
-            { 429, new Hashtable()
-                {
-                    { 88, "QuotaExceeded" }
-                }
-            },
-            { 500, new Hashtable()
-                {
-                    { 131, "ResourceUnavailable" }
-                }
-            },
-            { 503, new Hashtable()
-                {
-                    { 130, "ResourceBusy" }
-                }
-            }
-        };
+            Hashtable _errorCategoryV2 = new Hashtable
+            {
+                { "about:blank", "NotSpecified" },
+                { "https://api.twitter.com/2/problems/not-authorized-for-resource", "PermissionDenied"},
+                { "https://api.twitter.com/2/problems/not-authorized-for-field", "PermissionDenied" },
+                { "https://api.twitter.com/2/problems/invalid-request", "InvalidArgument" },
+                { "https://api.twitter.com/2/problems/client-forbidden", "PermissionDenied"},
+                { "https://api.twitter.com/2/problems/disallowed-resource", "PermissionDenied"},
+                { "https://api.twitter.com/2/problems/unsupported-authentication", "AuthenticationError" },
+                { "https://api.twitter.com/2/problems/usage-capped", "QuotaExceeded" },
+                { "https://api.twitter.com/2/problems/streaming-connection", "ConnectionError" },
+                { "https://api.twitter.com/2/problems/client-disconnected", "ConnectionError" },
+                { "https://api.twitter.com/2/problems/operational-disconnect", "ResourceUnavailable"},
+                { "https://api.twitter.com/2/problems/rule-cap", "QuotaExceeded" },
+                { "https://api.twitter.com/2/problems/invalid-rules", "InvalidArgument" },
+                { "https://api.twitter.com/2/problems/duplicate-rules", "InvalidOperation" },
+                { "https://api.twitter.com/2/problems/resource-not-found", "ObjectNotFound" }
+            };
 
+            if (_errorCategoryV2.ContainsKey(errorType))
+            {
+                return _errorCategoryV2[errorType].ToString();
+            }
+            else
+            {
+                return "NotSpecified";
+            }
+        }
+
+        public static string GetErrorCategory(int statusCode, int errorCode)
+        {
+            Hashtable _errorCategoryV1= new Hashtable()
+            {
+                { 400, new Hashtable()
+                    {
+                        { 324, "OperationStopped" },
+                        { 325, "ObjectNotFound" },
+                        { 323, "InvalidOperation" },
+                        { 110, "InvalidOperation" },
+                        { 215, "AuthenticationError" },
+                        { 3, "InvalidArgument" },
+                        { 7, "InvalidArgument" },
+                        { 8, "InvalidArgument" },
+                        { 44, "InvalidArgument" },
+                        { 407, "ResourceUnavailable" }
+                    }
+                },
+                { 401, new Hashtable()
+                    {
+                        { 417, "AuthenticationError" },
+                        { 135, "AuthenticationError" },
+                        { 32, "AuthenticationError" },
+                        { 416, "AuthenticationError" }
+                    }
+                },
+                { 403, new Hashtable()
+                    {
+                        { 326, "SecurityError" },
+                        { 200, "InvalidOperation" },
+                        { 272, "InvalidOperation" },
+                        { 160, "InvalidOperation" },
+                        { 203, "InvalidOperation" },
+                        { 431, "InvalidOperation" },
+                        { 386, "QuotaExceeded" },
+                        { 205, "QuotaExceeded" },
+                        { 226, "QuotaExceeded" },
+                        { 327, "QuotaExceeded" },
+                        { 99, "AuthenticationError" },
+                        { 89, "AuthenticationError" },
+                        { 195, "ConnectionError" },
+                        { 92, "ConnectionError" },
+                        { 354, "InvalidArgument" },
+                        { 186, "InvalidArgument" },
+                        { 38, "InvalidArgument" },
+                        { 120, "InvalidArgument" },
+                        { 163, "InvalidArgument" },
+                        { 214, "PermissionDenied" },
+                        { 220, "PermissionDenied" },
+                        { 261, "PermissionDenied" },
+                        { 187, "PermissionDenied" },
+                        { 349, "PermissionDenied" },
+                        { 385, "PermissionDenied" },
+                        { 415, "PermissionDenied" },
+                        { 271, "PermissionDenied" },
+                        { 185, "PermissionDenied" },
+                        { 36, "PermissionDenied" },
+                        { 63, "PermissionDenied" },
+                        { 64, "PermissionDenied" },
+                        { 87, "PermissionDenied" },
+                        { 179, "PermissionDenied" },
+                        { 93, "PermissionDenied" },
+                        { 433, "PermissionDenied" },
+                        { 139, "PermissionDenied" },
+                        { 150, "PermissionDenied" },
+                        { 151, "PermissionDenied" },
+                        { 161, "PermissionDenied" },
+                        { 425, "PermissionDenied" }
+                    }
+                },
+                { 404, new Hashtable()
+                    {
+                        { 34, "ObjectNotFound" },
+                        { 108, "ObjectNotFound" },
+                        { 109, "ObjectNotFound" },
+                        { 422, "ObjectNotFound" },
+                        { 421, "ObjectNotFound" },
+                        { 13, "ObjectNotFound" },
+                        { 17, "ObjectNotFound" },
+                        { 144, "ObjectNotFound" },
+                        { 50, "ObjectNotFound" },
+                        { 25, "InvalidArgument" }
+                    }
+                },
+                { 409, new Hashtable()
+                    {
+                        { 355, "InvalidOperation" }
+                    }
+                },
+                { 410, new Hashtable()
+                    {
+                        { 68, "ConnectionError" },
+                        { 251, "NotImplemented" }
+                    }
+                },
+                { 429, new Hashtable()
+                    {
+                        { 88, "QuotaExceeded" }
+                    }
+                },
+                { 500, new Hashtable()
+                    {
+                        { 131, "ResourceUnavailable" }
+                    }
+                },
+                { 503, new Hashtable()
+                    {
+                        { 130, "ResourceBusy" }
+                    }
+                }
+            };
+
+            switch (statusCode)
+            {
+                case 406:
+                    return "InvalidData";
+                case 415:
+                    return "LimitsExceeded";
+                case 420:
+                    return "QuotaExceeded";
+                case 422:
+                    return errorCode == 404 ? "InvalidOperation" : "InvalidArgument";
+                default:
+                    foreach (KeyValuePair<int, Hashtable> kvp in _errorCategoryV1)
+                    {
+                        if (kvp.Key == statusCode)
+                        {
+                            Hashtable nested = (Hashtable)_errorCategoryV1[kvp.Key];
+                            if (nested.ContainsKey(errorCode))
+                            {
+                                return nested[errorCode].ToString();
+                            }
+                        }
+                    }
+                    break;
+            }
+
+            return "NotSpecified";
+        }
+        
         internal static Exception GetTwitterAPIException(string exceptionType, string errorMessage)
         {
             return exceptionType switch
             {
-                "AuthenticationException" => new AuthenticationException(errorMessage),
-                "InvalidOperationException" => new InvalidOperationException(errorMessage),
-                "InvalidArgumentException" => new InvalidArgumentException(errorMessage),
-                "LimitsExceededException" => new LimitsExceededException(errorMessage),
-                "ResourceViolationException" => new ResourceViolationException(errorMessage),
-                "ResourceNotFoundException" => new ResourceNotFoundException(errorMessage),
-                "SecurityException" => new SecurityException(errorMessage),
-                "ConnectionException" => new ConnectionException(errorMessage),
-                "UnspecifiedException" => new UnspecifiedException(errorMessage),
-                _ => new UnspecifiedException(errorMessage),
+                "AuthenticationException" => new BluebirdPSAuthenticationException(errorMessage),
+                "InvalidOperationException" => new BluebirdPSInvalidOperationException(errorMessage),
+                "InvalidArgumentException" => new BluebirdPSInvalidArgumentException(errorMessage),
+                "LimitsExceededException" => new BluebirdPSLimitsExceededException(errorMessage),
+                "ResourceViolationException" => new BluebirdPSResourceViolationException(errorMessage),
+                "ResourceNotFoundException" => new BluebirdPSResourceNotFoundException(errorMessage),
+                "SecurityException" => new BluebirdPSSecurityException(errorMessage),
+                "ConnectionException" => new BluebirdPSConnectionException(errorMessage),
+                "UnspecifiedException" => new BluebirdPSUnspecifiedException(errorMessage),
+                _ => new BluebirdPSUnspecifiedException(errorMessage),
             };
         }
-
-        //internal static ErrorRecord TwitterAPIErrorRecord(ResponseData responseData)
-        //{
-        //    return new NotImplementedException();
-        //}
 
         internal static List<object> ParseApiV2Response(dynamic input)
         {
@@ -231,6 +269,7 @@ namespace BluebirdPS
 
             return twitterResponse;
         }
+        
         internal static List<object> ParseApiV1Response(dynamic input)
         {
             List<object> twitterResponse = new List<object>();
@@ -345,5 +384,40 @@ namespace BluebirdPS
             return twitterResponse;
         }
 
+        internal static string ConvertToJson(object input)
+        {
+            JsonSerializerOptions options = new JsonSerializerOptions()
+            {
+                WriteIndented = true
+            };
+            
+            //return JsonSerializer.Serialize(input, options);
+            return JsonConvert.SerializeObject(input, Formatting.Indented);
+        }
+
+        internal static dynamic ConvertFromJson(string input)
+        {
+            //return JsonSerializer.Deserialize<dynamic>(input);
+            return JsonConvert.DeserializeObject(input);
+        }
+
+        internal static T ConvertFromJson<T>(string input)
+        {
+            //return JsonSerializer.Deserialize<T>(input);
+            return JsonConvert.DeserializeObject<T>(input);
+        }
+
+        internal static bool IsJson(string text)
+        {
+            try
+            {
+                _ = JsonConvert.DeserializeObject(text);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

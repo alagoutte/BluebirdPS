@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Management.Automation;
 using System.Reflection;
 using System.Linq;
+using BluebirdPS.Models;
 
 namespace BluebirdPS.APIV2.Objects
 {

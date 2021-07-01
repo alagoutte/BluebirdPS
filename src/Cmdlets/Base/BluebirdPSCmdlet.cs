@@ -4,13 +4,15 @@ using System.Text;
 using System.Management.Automation;
 using System.Management.Automation.Runspaces;
 using System.Collections;
+using System.Linq;
 
-namespace BluebirdPS
-{    
+namespace BluebirdPS.Cmdlets.Base
+{
     public abstract class BluebirdPSCmdlet : PSCmdlet
     {
         [Parameter()]
         public SwitchParameter NoPagination { get; set; }
+
     }
 
     public abstract class BluebirdPSUserCmdlet : BluebirdPSCmdlet

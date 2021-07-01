@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Management.Automation;
+using BluebirdPS.Models;
 
 namespace BluebirdPS.APIV2.TweetInfo
 {

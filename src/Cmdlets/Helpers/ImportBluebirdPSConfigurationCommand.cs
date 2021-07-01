@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Management.Automation;
-using BluebirdPS;
+﻿using System.Management.Automation;
 using System.IO;
-using Newtonsoft;
-using Newtonsoft.Json;
+using BluebirdPS.Core;
 
-namespace BluebirdPS.Cmdlets
+namespace BluebirdPS.Cmdlets.Helpers
 {
     [Cmdlet(VerbsData.Import, "BluebirdPSConfiguration")]
     public class ImportBluebirdPSConfigurationCommand : PSCmdlet
@@ -21,12 +16,12 @@ namespace BluebirdPS.Cmdlets
             if (File.Exists(Metadata.Configuration.ConfigurationPath))
             {
                 WriteVerbose($"Importing {_fileDescription}.");
-                Metadata.Configuration = JsonConvert.DeserializeObject<Configuration>(File.ReadAllText(Metadata.Configuration.ConfigurationPath));                
+                Metadata.Configuration = Parsers.ConvertFromJson<Configuration>(File.ReadAllText(Metadata.Configuration.ConfigurationPath));
             }
             else
             {
                 Metadata.Configuration = new Configuration();
-            }            
-        }        
+            }
+        }
     }
 }

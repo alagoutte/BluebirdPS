@@ -7,9 +7,14 @@
     <Title>BluebirdPS</Title>
     <Description>A Twitter Automation Client for PowerShell 7. Tweet, retweet, send direct messages, manage lists, and more.</Description>
     <Copyright>Copyright © 2020-2021</Copyright>
-    <Version>0.2.0</Version>
+    <Version>0.8.0</Version>
     <PackageProjectUrl>https://docs.bluebirdps.dev/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/thedavecarroll/BluebirdPS/</RepositoryUrl>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>D:\GitHub\BluebirdPS\src\BluebirdPS.xml</DocumentationFile>
+    <NoWarn>1701;1702; 1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Management.Automation;
 
-namespace BluebirdPS.Cmdlets
+namespace BluebirdPS.Cmdlets.Helpers
 {
     [Cmdlet(VerbsCommon.Get, "BluebirdPSHistory")]
     [OutputType(typeof(List<ResponseData>))]

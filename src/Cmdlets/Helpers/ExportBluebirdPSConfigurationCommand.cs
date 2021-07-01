@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Management.Automation;
+﻿using System.Management.Automation;
 using System.IO;
-using BluebirdPS;
-using Newtonsoft.Json;
+using BluebirdPS.Core;
 
-namespace BluebirdPS.Cmdlets
+namespace BluebirdPS.Cmdlets.Helpers
 {
     [Cmdlet(VerbsData.Export, "BluebirdPSConfiguration")]
     public class ExportBluebirdPSConfigurationCommand : Cmdlet
@@ -23,7 +19,7 @@ namespace BluebirdPS.Cmdlets
             string message = $"Saved BluebirdPS Configuration to {_action} file: {Metadata.Configuration.ConfigurationPath}";
             WriteVerbose(message);
 
-            string _configuration = JsonConvert.SerializeObject(Metadata.Configuration,Formatting.Indented);
+            string _configuration = Parsers.ConvertToJson(Metadata.Configuration);
             WriteObject(_configuration);
         }
         

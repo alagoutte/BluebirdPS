@@ -34,7 +34,7 @@ namespace BluebirdPS
         public bool PromotedMetrics { get; set; }
         public bool OrganicMetrics { get; set; }
         public bool IncludeExpansions { get; set; }
-        public string CommandName { get; private set; }
+        public string CommandName { get; set; }
 
         public InvocationInfo InvocationInfo { get; private set; }
 
@@ -48,7 +48,7 @@ namespace BluebirdPS
         {
             try {
                 CallStackFrame _callStackFrame = Runspace.DefaultRunspace.Debugger.GetCallStack().ToList().First();
-                CommandName = _callStackFrame.FunctionName;
+                CommandName = _callStackFrame.InvocationInfo.MyCommand.Name;
                 InvocationInfo = _callStackFrame.InvocationInfo;
             }
             catch

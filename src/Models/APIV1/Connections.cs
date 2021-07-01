@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using BluebirdPS;
+﻿using System.Collections.Generic;
+using BluebirdPS.Models;
 
 namespace BluebirdPS.APIV1
 {

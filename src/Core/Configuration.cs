@@ -29,9 +29,9 @@ namespace BluebirdPS
 
     public class Configuration
     {
-        
-        public string AuthUserId { get; set; }
-        public string AuthUserName { get; set; }
+
+        public string AuthUserId { get; set; } = "292670084";
+        public string AuthUserName { get; set; } = "thedavecarroll";
         public DateTime? AuthValidationDate { get; set; }
         public DateTime? AuthLastExportDate { get; set; }
         public RateLimitAction RateLimitAction { get; set; } = RateLimitAction.Warning;

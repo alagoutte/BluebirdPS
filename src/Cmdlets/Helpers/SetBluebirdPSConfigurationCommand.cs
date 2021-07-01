@@ -5,7 +5,7 @@ using System.Management.Automation;
 using System.Linq;
 using System.Reflection;
 
-namespace BluebirdPS.Cmdlets
+namespace BluebirdPS.Cmdlets.Helpers
 {
     [Cmdlet(VerbsCommon.Set, "BluebirdPSConfiguration")]
     public class SetBluebirdPSConfigurationCommand : PSCmdlet
@@ -22,7 +22,7 @@ namespace BluebirdPS.Cmdlets
         protected override void ProcessRecord()
         {
             IEnumerable<string> configParameters = MyInvocation.BoundParameters.Keys.Except(CommonParameters).Where(param => param != "Export");
-            
+
             foreach (string config in configParameters)
             {
                 var configValue = MyInvocation.BoundParameters[config];
@@ -46,6 +46,6 @@ namespace BluebirdPS.Cmdlets
                 WriteVerbose("Use the -Export switch to save the new configuration to disk.");
             }
 
-        } 
+        }
     }
 }

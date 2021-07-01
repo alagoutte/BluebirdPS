@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BluebirdPS</name>
+    </assembly>
+    <members>
+        <member name="T:BluebirdPS.Cmdlets.APIV2.GetTwitterUserCommand">
+            <summary>
+            
+            </summary>
+        </member>
+    </members>
+</doc>

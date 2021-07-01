@@ -58,55 +58,6 @@ namespace BluebirdPS
             return input != null ? input.ToUniversalTime().ToString("s", CultureInfo.InvariantCulture) + "Z" : null;
         }
 
-        public static bool IsJson(string text)
-        {
-            return true;
-        }
-
-        public static string GetErrorCategory(string errorType)
-        {            
-            if (Metadata.ErrorCategoryV2.ContainsKey(errorType))
-            {
-                return Metadata.ErrorCategoryV2[errorType].ToString();
-            } else
-            {
-                return "NotSpecified";
-            }
-        }
-    
-        public static string GetErrorCategory(int statusCode, int errorCode)
-        {
-
-            switch (statusCode)
-            {
-                case 406:
-                    return "InvalidData";
-                case 415:
-                    return "LimitsExceeded";
-                case 420:
-                    return "QuotaExceeded";
-                case 422:
-                    return errorCode == 404 ? "InvalidOperation" : "InvalidArgument";
-                default:
-                    foreach (KeyValuePair<int, Hashtable> kvp in Metadata.ErrorCategoryV1)
-                    {
-
-                        if (kvp.Key == statusCode)
-                        {
-                            Hashtable nested = (Hashtable)Metadata.ErrorCategoryV1[kvp.Key];
-                            if (nested.ContainsKey(errorCode))
-                            {
-                                return nested[errorCode].ToString();
-                            }
-
-                        }
-                    }
-                    break;
-            }
-            
-            return "NotSpecified";
-        }
-
         public static PSObject GetVariable(string variableName)
         {
             using (PowerShell pwsh = PowerShell.Create(RunspaceMode.CurrentRunspace))
@@ -122,13 +73,11 @@ namespace BluebirdPS
         
         public static void SetVariable(string variableName, object value, string scope)
         {
-            using (PowerShell pwsh = PowerShell.Create(RunspaceMode.CurrentRunspace))
-            {
-                Collection<PSObject> variableInfo = pwsh.AddCommand("Set-Variable")
-                    .AddParameter("Name", variableName)
-                    .AddParameter("Value", value)
-                    .AddParameter("Scope", scope).Invoke();                
-            }
+            using PowerShell pwsh = PowerShell.Create(RunspaceMode.CurrentRunspace);
+            Collection<PSObject> variableInfo = pwsh.AddCommand("Set-Variable")
+                .AddParameter("Name", variableName)
+                .AddParameter("Value", value)
+                .AddParameter("Scope", scope).Invoke();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace BluebirdPS
+﻿namespace BluebirdPS.Models
 {
     public class TwitterObject
     {
