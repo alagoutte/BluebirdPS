@@ -31,7 +31,7 @@ namespace BluebirdPS.APIV2.UserInfo
             {
                 OriginalObject = input;
                 
-                if (Helpers.HasProperty(input, "username"))
+                if (Core.Helpers.HasProperty(input, "username"))
                 {
                     Id = input.id;
                     UserName = input.username;
@@ -39,7 +39,7 @@ namespace BluebirdPS.APIV2.UserInfo
                     PinnedTweetId = input.pinned_tweet_id;
                     PublicMetrics = new Metrics.Public(input.public_metrics);
                 } 
-                else if (Helpers.HasProperty(input, "screen_name"))
+                else if (Core.Helpers.HasProperty(input, "screen_name"))
                 {
                     Id = input.id.ToString();
                     UserName = input.screen_name;
@@ -55,7 +55,7 @@ namespace BluebirdPS.APIV2.UserInfo
                 Url = new Uri(input.url);
                 Verified = input.verified ?? null;                
                 
-                if (Helpers.HasProperty(input, "withheld"))
+                if (Core.Helpers.HasProperty(input, "withheld"))
                 {
                     Withheld = new WithheldContent(input.withheld);
                 }

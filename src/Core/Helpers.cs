@@ -11,7 +11,7 @@ using System.IO;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace BluebirdPS
+namespace BluebirdPS.Core
 {
     public class Helpers
     {

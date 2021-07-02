@@ -23,18 +23,21 @@ namespace BluebirdPS.Cmdlets.APIV2
 
         protected override void ProcessRecord()
         {
-            foreach (string user in User)
+            if (User != null)
             {
-                try
+                foreach (string user in User)
                 {
-                    _= long.Parse(user);
-                    userIds.Add(user);
+                    try
+                    {
+                        _ = long.Parse(user);
+                        userIds.Add(user);
+                    }
+                    catch
+                    {
+                        userNames.Add(user);
+                    }
                 }
-                catch
-                {
-                    userNames.Add(user);
-                }
-            }
+            }            
         }
 
         protected override void EndProcessing()
@@ -56,7 +59,7 @@ namespace BluebirdPS.Cmdlets.APIV2
                 {
                     RequestParameters = request
                 };
-                WriteObject(apiRequest.Invoke<object>());
+                WriteObject(apiRequest.Invoke());
             }
 
             if (userNames.Count > 0)
@@ -82,7 +85,7 @@ namespace BluebirdPS.Cmdlets.APIV2
                 {
                     RequestParameters = request
                 };
-                WriteObject(apiRequest.Invoke<object>());
+                WriteObject(apiRequest.Invoke());
             }
             if (userIds.Count > 0)
             {
@@ -108,7 +111,7 @@ namespace BluebirdPS.Cmdlets.APIV2
                 {
                     RequestParameters = request
                 };
-                WriteObject(apiRequest.Invoke<object>());
+                WriteObject(apiRequest.Invoke());
             }
         }
 

@@ -18,7 +18,7 @@ namespace BluebirdPS.APIV1
 
             foreach (string connection in input.connections)
             {
-                Connections.Add(Helpers.ToTitleCase(connection).Replace("_",null));
+                Connections.Add(Core.Helpers.ToTitleCase(connection).Replace("_",null));
             }
         }      
     }

@@ -38,24 +38,24 @@ namespace BluebirdPS.APIV2.MediaInfo
                 Type = mediaType;
                 Height = input.height;
                 Width = input.width;
-                if (Helpers.HasProperty(input, "duration_ms"))
+                if (Core.Helpers.HasProperty(input, "duration_ms"))
                 {
                     Duration = input.duration_ms;
                 }
-                if (Helpers.HasProperty(input, "preview_image_url"))
+                if (Core.Helpers.HasProperty(input, "preview_image_url"))
                 {
                     PreviewImageUrl = new Uri(input.preview_image_url);
                 }
 
-                if (Helpers.HasProperty(input, "non_public_metrics"))
+                if (Core.Helpers.HasProperty(input, "non_public_metrics"))
                 {
                     NonPublicMetrics = new NonPublic(input.non_public_metrics);
                 }
-                if (Helpers.HasProperty(input, "organic_metrics"))
+                if (Core.Helpers.HasProperty(input, "organic_metrics"))
                 {
                     OrganicMetrics = new Organic(input.organic_metrics);
                 }
-                if (Helpers.HasProperty(input, "promoted_metrics"))
+                if (Core.Helpers.HasProperty(input, "promoted_metrics"))
                 {
                     PromotedMetrics = new Promoted(input.promoted_metrics);
                 }

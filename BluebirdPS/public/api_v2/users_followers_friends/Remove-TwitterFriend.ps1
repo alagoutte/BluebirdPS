@@ -5,7 +5,7 @@ function Remove-TwitterFriend {
         [string]$Id,
 
         [Parameter(Mandatory,ParameterSetName='ByUser',ValueFromPipeline)]
-        [ValidateObjectNotNullOrEmpty()]
+        [BluebirdPS.Cmdlets.Base.ValidateObjectNotNullOrEmpty()]
         [BluebirdPS.APIV2.UserInfo.User]$User
     )
 

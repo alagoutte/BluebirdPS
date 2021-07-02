@@ -5,6 +5,7 @@ using System.Linq;
 using BluebirdPS.Cmdlets.Base;
 using BluebirdPS.Exceptions;
 using BluebirdPS.Core;
+using System.Collections.Generic;
 
 namespace BluebirdPS.Cmdlets
 {
@@ -78,14 +79,21 @@ namespace BluebirdPS.Cmdlets
             PSObject apiResponse = pwsh.Invoke().ToList()[0];
             pwsh.Commands.Clear();
 
-            Metadata.LastResponseHeaders = BluebirdPS.Helpers.GetVariable("ResponseHeaders").BaseObject;
-            Metadata.LastStatusCode = (int)(HttpStatusCode)BluebirdPS.Helpers.GetVariable("StatusCode").BaseObject;
+            Metadata.LastResponseHeaders = BluebirdPS.Core.Helpers.GetVariable("ResponseHeaders").BaseObject;
+            Metadata.LastStatusCode = (int)(HttpStatusCode)Core.Helpers.GetVariable("StatusCode").BaseObject;
 
             ResponseData twitterResponse = new ResponseData(RequestParameters, authentication, Metadata.LastResponseHeaders, (HttpStatusCode)Metadata.LastStatusCode, apiResponse);
 
             CheckRateLimit(twitterResponse);
             AddResponseToHistory(twitterResponse);
-            WriteResponse(twitterResponse);
+
+            if (Metadata.LastStatusCode == 401)
+            {
+                // throw error
+            } else
+            {
+                WriteResponse(twitterResponse);
+            }            
         }
 
         private void CheckRateLimit(ResponseData responseData)
@@ -136,14 +144,33 @@ namespace BluebirdPS.Cmdlets
                     WriteObject(jsonOutput);
                     return;
                 case OutputType.CustomClasses:
-                    WriteCustomClasses(responseData.ApiResponse);
+                    WriteCustomClasses(responseData);
                     break;
             }
         }
 
-        private void WriteCustomClasses(dynamic apiResponse)
+        private void WriteCustomClasses(ResponseData responseData)
         {
-
+            switch (responseData.ApiVersion)
+            {
+                case "1.1":
+                    if (responseData.Command != "Set-TwitterMutedUser")
+                    {
+                        foreach (object item in Parsers.ParseApiV1Response(responseData.ApiResponse)) {
+                            WriteObject(item);
+                        }
+                    }
+                    break;
+                case "2":
+                    foreach (object item in Parsers.ParseApiV2Response(responseData.ApiResponse))
+                    {
+                        WriteObject(item);
+                    }
+                    break;
+                default:
+                    WriteObject(responseData.ApiResponse);
+                    break;
+            }
         }
     }
 }

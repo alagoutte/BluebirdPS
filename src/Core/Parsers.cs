@@ -8,6 +8,7 @@ using BluebirdPS.APIV2.Objects;
 using BluebirdPS.APIV2.TweetInfo;
 using BluebirdPS.APIV2.UserInfo;
 using BluebirdPS.Exceptions;
+using System.Text.RegularExpressions;
 
 namespace BluebirdPS.Core
 {
@@ -18,20 +19,21 @@ namespace BluebirdPS.Core
             Hashtable _errorCategoryV2 = new Hashtable
             {
                 { "about:blank", "NotSpecified" },
-                { "https://api.twitter.com/2/problems/not-authorized-for-resource", "PermissionDenied"},
-                { "https://api.twitter.com/2/problems/not-authorized-for-field", "PermissionDenied" },
-                { "https://api.twitter.com/2/problems/invalid-request", "InvalidArgument" },
+                { "https://api.twitter.com/2/problems/client-disconnected", "ConnectionError" },
                 { "https://api.twitter.com/2/problems/client-forbidden", "PermissionDenied"},
                 { "https://api.twitter.com/2/problems/disallowed-resource", "PermissionDenied"},
-                { "https://api.twitter.com/2/problems/unsupported-authentication", "AuthenticationError" },
-                { "https://api.twitter.com/2/problems/usage-capped", "QuotaExceeded" },
-                { "https://api.twitter.com/2/problems/streaming-connection", "ConnectionError" },
-                { "https://api.twitter.com/2/problems/client-disconnected", "ConnectionError" },
-                { "https://api.twitter.com/2/problems/operational-disconnect", "ResourceUnavailable"},
-                { "https://api.twitter.com/2/problems/rule-cap", "QuotaExceeded" },
+                { "https://api.twitter.com/2/problems/duplicate-rules", "InvalidOperation" },                
+                { "https://api.twitter.com/2/problems/invalid-request", "InvalidArgument" },
                 { "https://api.twitter.com/2/problems/invalid-rules", "InvalidArgument" },
-                { "https://api.twitter.com/2/problems/duplicate-rules", "InvalidOperation" },
-                { "https://api.twitter.com/2/problems/resource-not-found", "ObjectNotFound" }
+                { "https://api.twitter.com/2/problems/not-authorized-for-field", "PermissionDenied" },
+                { "https://api.twitter.com/2/problems/not-authorized-for-resource", "PermissionDenied"},
+                { "https://api.twitter.com/2/problems/operational-disconnect", "ResourceUnavailable"},
+                { "https://api.twitter.com/2/problems/resource-not-found", "ObjectNotFound" },
+                { "https://api.twitter.com/2/problems/resource-unavailable", "ResourceUnavailable"},
+                { "https://api.twitter.com/2/problems/rule-cap", "QuotaExceeded" },
+                { "https://api.twitter.com/2/problems/streaming-connection", "ConnectionError" },
+                { "https://api.twitter.com/2/problems/unsupported-authentication", "AuthenticationError" },
+                { "https://api.twitter.com/2/problems/usage-capped", "QuotaExceeded" }                
             };
 
             if (_errorCategoryV2.ContainsKey(errorType))
@@ -227,7 +229,19 @@ namespace BluebirdPS.Core
                 }
                 else
                 {
-                    if (Helpers.HasProperty(input.data, "username"))
+                    if (Helpers.HasProperty(input.data, "following"))
+                    {
+                        GetUpdateFriendshipStatus(input);
+                    }
+                    else if (Helpers.HasProperty(input.data, "blocking"))
+                    {
+                        GetUserBlockStatus(input);
+                    }
+                    else if (Helpers.HasProperty(input.data, "liked"))
+                    {
+                        GetTweetLikeStatus(input);
+                    }
+                    else if (Helpers.HasProperty(input.data, "username"))
                     {
                         twitterResponse.Add(new User(input.data));
                     }
@@ -418,6 +432,45 @@ namespace BluebirdPS.Core
             {
                 return false;
             }
+        }
+
+        public static string GetUpdateFriendshipStatus(ResponseData response)
+        {
+            string following = response.Command == "Add-TwitterFriend" ? GetUserFromBody(response) : GetUserFromSegment(response);
+            bool isPending = Helpers.HasProperty(response.ApiResponse.data, "pending_follow") ? (bool)response.ApiResponse.data.pending_follow : false;
+            string pending = isPending ? $" There is a pending follow: {response.ApiResponse.data.pending_follow}" : null;
+            return $"Following user {following}: {response.ApiResponse.data.following}.{pending}";
+        }
+
+        public static string GetUserBlockStatus(ResponseData response)
+        {
+            string blocking = response.HttpMethod == HttpMethod.POST ? GetUserFromBody(response) : GetUserFromSegment(response);
+            return $"Blocking user {blocking}: {response.ApiResponse.data.blocking}";
+        }
+
+        public static string GetTweetLikeStatus(ResponseData response)
+        {
+            string liked = response.HttpMethod == HttpMethod.POST ? GetUserFromBody(response) : GetUserFromSegment(response);
+            return $"Likes tweet {liked}: {response.ApiResponse.data.liked}";
+        }
+
+        //public static string GetUserMuteStatus(ResponseData response)
+        //{
+        //    // return nothing as the returned v1.1 user 'muting' property may not have been updated
+        //    // an error will still be returned if an attempt to unmute a user that hasn't been muted
+        //    return $"Muting user {response.ApiResponse.screen_name}: {response.ApiResponse.muting}";
+        //}
+
+        private static string GetUserFromBody(ResponseData response)
+        {
+            Regex r = new Regex(@"(?<target>\d+)");
+            Match m = r.Match(response.Body);
+            return m.Groups["target"].Value;
+        }
+
+        private static string GetUserFromSegment(ResponseData response)
+        {
+            return response.Uri.Segments[5].Replace("/", null);
         }
     }
 }

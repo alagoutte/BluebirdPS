@@ -16,7 +16,7 @@ namespace BluebirdPS.APIV1
             OriginalObject = input;
 
             Id = input.id_str;
-            CreatedAt = Helpers.ConvertFromV1Date(input.created_at);
+            CreatedAt = Core.Helpers.ConvertFromV1Date(input.created_at);
             Name = input.name;
             Query = input.query;
         }

@@ -18,44 +18,44 @@ namespace BluebirdPS.APIV2.Objects
 
             try
             {
-                if (Helpers.HasProperty(input, "annotations"))
+                if (Core.Helpers.HasProperty(input, "annotations"))
                 {
                     foreach (dynamic annotation in input.annotations)
                     {
                         entities.Add(new Annotation(annotation));
                     }
                 }
-                if (Helpers.HasProperty(input, "cashtags"))
+                if (Core.Helpers.HasProperty(input, "cashtags"))
                 {
                     foreach (dynamic cashtag in input.cashtags)
                     {
                         entities.Add(new CashTag(cashtag));
                     }
                 }
-                if (Helpers.HasProperty(input, "hashtags"))
+                if (Core.Helpers.HasProperty(input, "hashtags"))
                 {
                     foreach (dynamic hashtag in input.hashtags)
                     {
                         entities.Add(new HashTag(hashtag));
                     }
                 }
-                if (Helpers.HasProperty(input, "mentions"))
+                if (Core.Helpers.HasProperty(input, "mentions"))
                 {
                     foreach (dynamic mention in input.mentions)
                     {
                         entities.Add(new Mention(mention));
                     }
                 }
-                if (Helpers.HasProperty(input, "urls"))
+                if (Core.Helpers.HasProperty(input, "urls"))
                 {
                     foreach (dynamic url in input.urls)
                     {
                         entities.Add(new UrlTag(url));
                     }
                 }
-                if (Helpers.HasProperty(input, "url"))
+                if (Core.Helpers.HasProperty(input, "url"))
                 {
-                    if (Helpers.HasProperty(input.url, "urls"))
+                    if (Core.Helpers.HasProperty(input.url, "urls"))
                     {
                         foreach (dynamic url in input.url.urls)
                         {
@@ -63,9 +63,9 @@ namespace BluebirdPS.APIV2.Objects
                         }
                     }
                 }
-                if (Helpers.HasProperty(input, "description"))
+                if (Core.Helpers.HasProperty(input, "description"))
                 {
-                    if (Helpers.HasProperty(input.description, "urls"))
+                    if (Core.Helpers.HasProperty(input.description, "urls"))
                     {
                         foreach (dynamic url in input.description.urls)
                         {
@@ -159,11 +159,11 @@ namespace BluebirdPS.APIV2.Objects
             Start = input.start;
             End = input.end;
             
-            if (Helpers.HasProperty(input, "tag"))
+            if (Core.Helpers.HasProperty(input, "tag"))
             {
                 Tag = input.tag;
             }
-            if(Helpers.HasProperty(input, "username"))
+            if(Core.Helpers.HasProperty(input, "username"))
             {
                 UserName = input.username;
             }
@@ -197,23 +197,23 @@ namespace BluebirdPS.APIV2.Objects
             DisplayUrl = input.display_url;
             OriginalObject = input;
 
-            if (Helpers.HasProperty(input, "status"))
+            if (Core.Helpers.HasProperty(input, "status"))
             {
                 Status = input.status.ToString();
             }
-            if (Helpers.HasProperty(input, "title"))
+            if (Core.Helpers.HasProperty(input, "title"))
             {
                 Title = input.title;
             }
-            if (Helpers.HasProperty(input, "description"))
+            if (Core.Helpers.HasProperty(input, "description"))
             {
                 Description = input.description;
             }
-            if (Helpers.HasProperty(input, "unwound_url"))
+            if (Core.Helpers.HasProperty(input, "unwound_url"))
             {
                 UnwoundUrl = new Uri(input.unwound_url);
             }
-            if (Helpers.HasProperty(input, "images"))
+            if (Core.Helpers.HasProperty(input, "images"))
             {
                 List<Image> images = new List<Image>();
                 foreach (dynamic pic in input.images)
@@ -283,7 +283,7 @@ namespace BluebirdPS.APIV2.Objects
             Id = input.id;
             EndDateTime = input.end_datetime;
             Duration = input.duration_minutes;
-            VotingStatus = Helpers.ToTitleCase(input.voting_status);
+            VotingStatus = Core.Helpers.ToTitleCase(input.voting_status);
 
             List<PollOptions> pollOptions = new List<PollOptions>();
             foreach (dynamic item in input.options)

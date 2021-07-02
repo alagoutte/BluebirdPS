@@ -39,12 +39,12 @@ namespace BluebirdPS.APIV2.TweetInfo
             {
                 OriginalObject = input;
 
-                if (Helpers.HasProperty(input, "id_str"))
+                if (Core.Helpers.HasProperty(input, "id_str"))
                 {
                     // API v1.1 return
                     Id = input.id_str;
                     AuthorId = input.user.id_str;
-                    CreatedAt = Helpers.ConvertFromV1Date(input.created_at); 
+                    CreatedAt = Core.Helpers.ConvertFromV1Date(input.created_at); 
                     InReplyToUserId = input.in_reply_to_user_id_str;
 
                 } else
@@ -63,27 +63,27 @@ namespace BluebirdPS.APIV2.TweetInfo
                 PossiblySensitive = input.possibly_sensitive;                
                 Source = input.source;
 
-                if (Helpers.HasProperty(input, "attachments"))
+                if (Core.Helpers.HasProperty(input, "attachments"))
                 {
                     Attachments = new Attachments(input.attachments);
                 }
 
-                if (Helpers.HasProperty(input, "geo"))
+                if (Core.Helpers.HasProperty(input, "geo"))
                 {
                     Geo = input.geo;
                 }
 
-                if (Helpers.HasProperty(input, "reply_settings"))
+                if (Core.Helpers.HasProperty(input, "reply_settings"))
                 {
-                    ReplySettings = Helpers.ToTitleCase(input.reply_settings);
+                    ReplySettings = Core.Helpers.ToTitleCase(input.reply_settings);
                 }
 
-                if (Helpers.HasProperty(input, "withheld"))
+                if (Core.Helpers.HasProperty(input, "withheld"))
                 {
                     Withheld = new WithheldContent(input.withheld);
                 }
 
-                if (Helpers.HasProperty(input, "referenced_tweets"))
+                if (Core.Helpers.HasProperty(input, "referenced_tweets"))
                 {
                     List<ReferencedTweet> referencedTweets = new List<ReferencedTweet>();
                     foreach (dynamic refTweet in input.referenced_tweets)
@@ -93,21 +93,21 @@ namespace BluebirdPS.APIV2.TweetInfo
                     ReferencedTweets = referencedTweets;
                 }
 
-                if (Helpers.HasProperty(input, "context_annotations"))
+                if (Core.Helpers.HasProperty(input, "context_annotations"))
                 {
                     List<Context.ContextAnnotation> contextAnnotations = new List<Context.ContextAnnotation>();
 
                 }
 
-                if (Helpers.HasProperty(input, "non_public_metrics"))
+                if (Core.Helpers.HasProperty(input, "non_public_metrics"))
                 {
                     NonPublicMetrics = new NonPublic(input.non_public_metrics);
                 }
-                if (Helpers.HasProperty(input, "organic_metrics"))
+                if (Core.Helpers.HasProperty(input, "organic_metrics"))
                 {
                     OrganicMetrics = new Organic(input.organic_metrics);
                 }
-                if (Helpers.HasProperty(input, "promoted_metrics"))
+                if (Core.Helpers.HasProperty(input, "promoted_metrics"))
                 {
                     PromotedMetrics = new Promoted(input.promoted_metrics);
                 }
@@ -134,7 +134,7 @@ namespace BluebirdPS.APIV2.TweetInfo
         public ReferencedTweet() { }
         public ReferencedTweet(dynamic input)
         {
-            Type = Helpers.ToTitleCase(input.type);
+            Type = Core.Helpers.ToTitleCase(input.type);
             Id = input.id;
             OriginalObject = input;
         }
@@ -198,7 +198,7 @@ namespace BluebirdPS.APIV2.TweetInfo
             {
                 List<string> attachments = new List<string>();
 
-                if (Helpers.HasProperty(input, "poll_ids"))
+                if (Core.Helpers.HasProperty(input, "poll_ids"))
                 {
                     Type = "Poll";
                     foreach (string attachment in input.poll_ids)
@@ -207,7 +207,7 @@ namespace BluebirdPS.APIV2.TweetInfo
                     }
 
                 }
-                else if (Helpers.HasProperty(input, "media_keys"))
+                else if (Core.Helpers.HasProperty(input, "media_keys"))
                 {
                     Type = "MediaInfo";
                     foreach (string attachment in input.media_keys)
@@ -324,11 +324,11 @@ namespace BluebirdPS.APIV2.TweetInfo
             ContextAnnotation() { }
             ContextAnnotation(dynamic input) {
                 OriginalObject = input;
-                if (Helpers.HasProperty(input, "domain"))
+                if (Core.Helpers.HasProperty(input, "domain"))
                 {
                     Domain = new Domain(input.domain);
                 }
-                if (Helpers.HasProperty(input, "entity"))
+                if (Core.Helpers.HasProperty(input, "entity"))
                 {
                     Entity = new Entity(input.entity);
                 }

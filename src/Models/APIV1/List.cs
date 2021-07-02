@@ -27,13 +27,13 @@ namespace BluebirdPS.APIV1
                 OriginalObject = input;
 
                 Id = input.id_str;
-                CreatedAt = Helpers.ConvertFromV1Date(input.created_at);
+                CreatedAt = Core.Helpers.ConvertFromV1Date(input.created_at);
                 Slug = input.slug;
                 Name = input.name;
                 FullName = input.full_name;
                 Description = input.description;
                 Uri = $"https://twitter.com{input.uri}";
-                Mode = Helpers.ToTitleCase(input.mode);
+                Mode = Core.Helpers.ToTitleCase(input.mode);
                 MemberCount = input.member_count;
                 SubscriberCount = input.subscriber_count;
                 Following = input.following;

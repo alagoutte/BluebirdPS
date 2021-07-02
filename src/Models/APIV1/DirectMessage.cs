@@ -27,7 +27,7 @@ namespace BluebirdPS.APIV1
                 dynamic messageCreate = @event.message_create;
 
                 Id = messageMeta.id;
-                CreatedAt = Helpers.ConvertFromEpochTime(messageMeta.created_timestamp);
+                CreatedAt = Core.Helpers.ConvertFromEpochTime(messageMeta.created_timestamp);
 
                 SenderId = messageCreate.sender_id;
                 RecipientId = messageCreate.target.recipient_id;
@@ -100,7 +100,7 @@ namespace BluebirdPS.APIV1
                 Url = new Uri(input.url);
                 DisplayUrl = input.display_url;
                 ExpandedUrl = new Uri(input.expanded_url);
-                Type = Helpers.ToTitleCase(input.type);
+                Type = Core.Helpers.ToTitleCase(input.type);
 
                 //Sizes = input.sizes;
             }
@@ -136,7 +136,7 @@ namespace BluebirdPS.APIV1
             Size = input;
             Width = input.w;
             Height = input.h;
-            Resize = Helpers.ToTitleCase(input.resize);
+            Resize = Core.Helpers.ToTitleCase(input.resize);
         }
     }
 
