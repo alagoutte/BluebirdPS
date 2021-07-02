@@ -4,6 +4,7 @@ using System.Text;
 using System.Management.Automation;
 using System.IO;
 using System.Collections;
+using BluebirdPS.Core;
 
 namespace BluebirdPS
 {

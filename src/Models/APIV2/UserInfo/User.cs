@@ -1,12 +1,13 @@
-using BluebirdPS.APIV2.Objects;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using BluebirdPS.Models;
+using System.Text;
+using BluebirdPS.Models.APIV2.Objects;
+using BluebirdPS.Models.APIV2.Metrics.User;
 
-namespace BluebirdPS.APIV2.UserInfo
+namespace BluebirdPS.Models.APIV2.UserInfo
 {
     public class User : TwitterObject
-    {       
+    {
         public string Id { get; set; }
         public string Name { get; set; }
         public string UserName { get; set; }
@@ -19,7 +20,7 @@ namespace BluebirdPS.APIV2.UserInfo
         public string PinnedTweetId { get; set; }
         public Uri ProfileImageUrl { get; set; }
         public bool Protected { get; set; }
-        public Metrics.Public PublicMetrics { get; set; }
+        public Public PublicMetrics { get; set; }
         public Uri Url { get; set; }
         public bool Verified { get; set; }
         public WithheldContent Withheld { get; set; }
@@ -30,15 +31,15 @@ namespace BluebirdPS.APIV2.UserInfo
             try
             {
                 OriginalObject = input;
-                
+
                 if (Core.Helpers.HasProperty(input, "username"))
                 {
                     Id = input.id;
                     UserName = input.username;
                     CreatedAt = input.created_at ?? null;
                     PinnedTweetId = input.pinned_tweet_id;
-                    PublicMetrics = new Metrics.Public(input.public_metrics);
-                } 
+                    PublicMetrics = new Public(input.public_metrics);
+                }
                 else if (Core.Helpers.HasProperty(input, "screen_name"))
                 {
                     Id = input.id.ToString();
@@ -50,11 +51,11 @@ namespace BluebirdPS.APIV2.UserInfo
                 Description = input.description;
                 Entities = BaseEntity.GetEntities(input.entities);
                 Location = input.location;
-                ProfileImageUrl = new Uri(input.profile_image_url);                
+                ProfileImageUrl = new Uri(input.profile_image_url);
                 Protected = input.@protected ?? null;
                 Url = new Uri(input.url);
-                Verified = input.verified ?? null;                
-                
+                Verified = input.verified ?? null;
+
                 if (Core.Helpers.HasProperty(input, "withheld"))
                 {
                     Withheld = new WithheldContent(input.withheld);
@@ -71,27 +72,6 @@ namespace BluebirdPS.APIV2.UserInfo
         public override string ToString()
         {
             return $"{UserName}:{Id}:{Name}";
-        }
-    }
-
-    namespace Metrics
-    {
-        public class Public : BaseMetrics
-        {
-            public long FollowersCount { get; set; }
-            public long FollowingCount { get; set; }
-            public long ListedCount { get; set; }
-            public long TweetCount { get; set; }
-
-            public Public() { }
-            public Public(dynamic input)
-            {
-                FollowersCount = input.followers_count;
-                FollowingCount = input.following_count;
-                ListedCount = input.listed_count;
-                TweetCount = input.tweet_count;
-                OriginalObject = input;
-            }
         }
     }
 }

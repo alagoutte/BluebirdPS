@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using BluebirdPS.Models;
 
-namespace BluebirdPS.APIV1
+namespace BluebirdPS.Models.APIV1
 {
     public class FriendshipConnections : TwitterObject
     {

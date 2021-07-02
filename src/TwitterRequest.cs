@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Management.Automation;
-using BluebirdPS.APIV2;
+using BluebirdPS.Models.APIV2;
 using System.Linq;
 using System.Management.Automation.Runspaces;
 

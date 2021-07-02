@@ -1,7 +1,6 @@
 ﻿using System;
-using BluebirdPS.Models;
 
-namespace BluebirdPS.APIV1
+namespace BluebirdPS.Models.APIV1
 {
     public class List : TwitterObject
     {

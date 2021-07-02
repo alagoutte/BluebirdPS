@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
-using BluebirdPS.Models;
 
-namespace BluebirdPS.APIV1
+namespace BluebirdPS.Models.APIV1
 {
     public class Relationship : TwitterObject
     {

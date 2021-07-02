@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BluebirdPS
+namespace BluebirdPS.Core
 {
     internal class OAuthCredentials
     {

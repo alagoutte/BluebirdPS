@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text.Json;
 using Newtonsoft.Json;
-using BluebirdPS.APIV1;
-using BluebirdPS.APIV2.Objects;
-using BluebirdPS.APIV2.TweetInfo;
-using BluebirdPS.APIV2.UserInfo;
+using BluebirdPS.Models.APIV1;
+using BluebirdPS.Models.APIV2.Objects;
+using BluebirdPS.Models.APIV2.TweetInfo;
+using BluebirdPS.Models.APIV2.UserInfo;
 using BluebirdPS.Exceptions;
 using System.Text.RegularExpressions;
 

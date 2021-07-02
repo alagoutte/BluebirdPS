@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BluebirdPS.APIV2
+namespace BluebirdPS.Models.APIV2
 {
     public static class ObjectFields
     {

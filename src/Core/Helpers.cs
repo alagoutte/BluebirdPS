@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Management.Automation;
-using BluebirdPS.APIV2.MediaInfo;
-using BluebirdPS.APIV2.TweetInfo;
-using BluebirdPS.APIV2.UserInfo;
-using BluebirdPS.APIV2.Objects;
-using System.Collections;
 using System.IO;
 using System.Collections.ObjectModel;
 using System.Linq;

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BluebirdPS.APIV1
+namespace BluebirdPS.Models.APIV1
 {
     public class RateLimitStatus
     {
