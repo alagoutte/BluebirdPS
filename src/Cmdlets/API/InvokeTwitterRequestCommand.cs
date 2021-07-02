@@ -2,10 +2,9 @@
 using System.Collections;
 using System.Net;
 using System.Linq;
-using BluebirdPS.Cmdlets.Base;
-using BluebirdPS.Exceptions;
 using BluebirdPS.Core;
-using System.Collections.Generic;
+using BluebirdPS.Models;
+using BluebirdPS.Models.Exceptions;
 
 namespace BluebirdPS.Cmdlets
 {
@@ -28,11 +27,11 @@ namespace BluebirdPS.Cmdlets
                 }
             }
 
-            BluebirdPS.Authentication authentication = null;
+            Core.Authentication authentication = null;
             switch (RequestParameters.OAuthVersion)
             {
                 case OAuthVersion.OAuth1a:
-                    authentication = new BluebirdPS.Authentication(
+                    authentication = new Core.Authentication(
                         RequestParameters,
                         Metadata.OAuth.ApiKey,
                         Metadata.OAuth.ApiSecret,
@@ -41,13 +40,13 @@ namespace BluebirdPS.Cmdlets
                     break;
 
                 case OAuthVersion.OAuth2Bearer:
-                    authentication = new BluebirdPS.Authentication(
+                    authentication = new Core.Authentication(
                         RequestParameters,
                         Metadata.OAuth.BearerToken);
                     break;
 
                 case OAuthVersion.Basic:
-                    authentication = new BluebirdPS.Authentication(
+                    authentication = new Core.Authentication(
                         RequestParameters,
                         Metadata.OAuth.ApiKey,
                         Metadata.OAuth.ApiSecret);

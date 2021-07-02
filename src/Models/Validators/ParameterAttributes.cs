@@ -2,7 +2,7 @@
 using System.Management.Automation;
 using System.Reflection;
 
-namespace BluebirdPS.Cmdlets.Base
+namespace BluebirdPS.Models
 {
     public class ValidateObjectNotNullOrEmptyAttribute : ValidateArgumentsAttribute
     {

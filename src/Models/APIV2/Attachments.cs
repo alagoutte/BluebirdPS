@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BluebirdPS.Models.APIV2.TweetInfo
+namespace BluebirdPS.Models.APIV2
 {
     public class Attachments : TwitterObject
     {

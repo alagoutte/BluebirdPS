@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Management.Automation;
 using System.Linq;
 using System.Reflection;
+using BluebirdPS.Core;
 
 namespace BluebirdPS.Cmdlets.Helpers
 {

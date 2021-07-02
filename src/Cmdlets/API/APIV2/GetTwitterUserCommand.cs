@@ -4,6 +4,8 @@ using System.Linq;
 using System.Management.Automation;
 using BluebirdPS.Cmdlets.Base;
 using System.Collections;
+using BluebirdPS.Core;
+using BluebirdPS.Models;
 
 namespace BluebirdPS.Cmdlets.APIV2
 {

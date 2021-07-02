@@ -3,8 +3,9 @@ using System.Text;
 using System.Linq;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using BluebirdPS.Models;
 
-namespace BluebirdPS
+namespace BluebirdPS.Core
 {
     public enum OAuthVersion
     {

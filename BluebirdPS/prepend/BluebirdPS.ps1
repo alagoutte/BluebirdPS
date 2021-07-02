@@ -4,12 +4,15 @@ using namespace Collections.ObjectModel
 using namespace System.Management.Automation
 using namespace System.Diagnostics.CodeAnalysis
 using namespace Microsoft.PowerShell.Commands
-using namespace BluebirdPS
-using namespace BluebirdPS.APIV2
-using namespace BluebirdPS.APIV2.UserInfo
-using namespace BluebirdPS.APIV2.TweetInfo
-using namespace BluebirdPS.APIV1
-using namespace BluebirdPS.Cmdlets.Base
+
+using namespace BluebirdPS.Core
+using namespace BluebirdPS.Models
+using namespace BluebirdPS.Models.APIV1
+using namespace BluebirdPS.Models.APIV2
+using namespace BluebirdPS.Models.APIV2.Metrics
+using namespace BluebirdPS.Models.APIV2.Metrics.Media
+using namespace BluebirdPS.Models.APIV2.Metrics.Tweet
+using namespace BluebirdPS.Models.APIV2.Metrics.User
 
 # --------------------------------------------------------------------------------------------------
 

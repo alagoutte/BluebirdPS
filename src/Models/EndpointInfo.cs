@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace BluebirdPS
+namespace BluebirdPS.Models
 {
     public class EndpointInfo
     {

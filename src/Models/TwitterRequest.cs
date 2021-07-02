@@ -5,8 +5,9 @@ using System.Management.Automation;
 using BluebirdPS.Models.APIV2;
 using System.Linq;
 using System.Management.Automation.Runspaces;
+using BluebirdPS.Core;
 
-namespace BluebirdPS
+namespace BluebirdPS.Models
 {
     public enum HttpMethod
     {

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using BluebirdPS.Models.APIV2.Objects;
 using BluebirdPS.Models.APIV2.Metrics.User;
 
-namespace BluebirdPS.Models.APIV2.UserInfo
+namespace BluebirdPS.Models.APIV2
 {
     public class User : TwitterObject
     {

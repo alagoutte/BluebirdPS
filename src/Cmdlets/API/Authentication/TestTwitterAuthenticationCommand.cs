@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using BluebirdPS.Cmdlets.Base;
 using System.Management.Automation;
-using BluebirdPS.Exceptions;
+using BluebirdPS.Core;
+using BluebirdPS.Models;
 
 namespace BluebirdPS.Cmdlets.API.Authentication
 {

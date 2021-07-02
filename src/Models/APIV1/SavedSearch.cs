@@ -1,5 +1,4 @@
 ﻿using System;
-using BluebirdPS.Models;
 
 namespace BluebirdPS.Models.APIV1
 {

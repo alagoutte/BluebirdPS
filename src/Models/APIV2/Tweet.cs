@@ -1,10 +1,9 @@
-﻿using BluebirdPS.Models.APIV2.Objects;
-using BluebirdPS.Models.APIV2.Metrics.Tweet;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Management.Automation;
+using BluebirdPS.Models.APIV2.Metrics.Tweet;
 
-namespace BluebirdPS.Models.APIV2.TweetInfo
+namespace BluebirdPS.Models.APIV2
 {
     public class Tweet : TwitterObject
     {
@@ -13,7 +12,7 @@ namespace BluebirdPS.Models.APIV2.TweetInfo
 
         public Attachments Attachments { get; set; }
         public string AuthorId { get; set; }
-        public List<Context.ContextAnnotation> ContextAnnotations { get; set; }
+        public List<ContextAnnotation> ContextAnnotations { get; set; }
         public string ConversationId { get; set; }
         public DateTime CreatedAt { get; set; }
         public List<object> Entities { get; set; }
@@ -94,7 +93,7 @@ namespace BluebirdPS.Models.APIV2.TweetInfo
 
                 if (Core.Helpers.HasProperty(input, "context_annotations"))
                 {
-                    List<Context.ContextAnnotation> contextAnnotations = new List<Context.ContextAnnotation>();
+                    List<ContextAnnotation> contextAnnotations = new List<ContextAnnotation>();
 
                 }
 

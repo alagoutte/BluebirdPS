@@ -1,4 +1,4 @@
-﻿namespace BluebirdPS.Models.APIV2.TweetInfo.Context
+﻿namespace BluebirdPS.Models.APIV2
 {
     public class ContextAnnotation : TwitterObject
     {

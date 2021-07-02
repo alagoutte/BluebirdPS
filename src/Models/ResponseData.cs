@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using System.Management.Automation;
 using System.Linq;
 using System.Net;
+using BluebirdPS.Core;
 
-namespace BluebirdPS
+namespace BluebirdPS.Models
 {
     public class ResponseData
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace BluebirdPS.Models.APIV2.TweetInfo
+namespace BluebirdPS.Models.APIV2
 {
     public class TweetCount : TwitterObject
     {

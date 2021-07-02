@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Management.Automation;
-using System.Management.Automation.Runspaces;
-using System.Text;
-using System.Text.RegularExpressions;
-using BluebirdPS;
 using System.IO;
 
-namespace BluebirdPS
+namespace BluebirdPS.Core
 {
     public enum RateLimitAction
     {

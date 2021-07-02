@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BluebirdPS.Exceptions
+namespace BluebirdPS.Models.Exceptions
 {
     public class BluebirdPSAuthenticationException : Exception
     {

@@ -1,12 +1,7 @@
-﻿using System;
+﻿using BluebirdPS.Models;
 using System.Collections.Generic;
-using System.Text;
-using System.Management.Automation;
-using System.IO;
-using System.Collections;
-using BluebirdPS.Core;
 
-namespace BluebirdPS
+namespace BluebirdPS.Core
 {
     internal class Metadata
     {

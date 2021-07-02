@@ -1,4 +1,5 @@
-﻿using System.Management.Automation;
+﻿using BluebirdPS.Core;
+using System.Management.Automation;
 
 namespace BluebirdPS.Cmdlets.Helpers
 {

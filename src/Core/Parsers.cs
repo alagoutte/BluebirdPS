@@ -3,11 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text.Json;
 using Newtonsoft.Json;
+using BluebirdPS.Models;
 using BluebirdPS.Models.APIV1;
-using BluebirdPS.Models.APIV2.Objects;
-using BluebirdPS.Models.APIV2.TweetInfo;
-using BluebirdPS.Models.APIV2.UserInfo;
-using BluebirdPS.Exceptions;
+using BluebirdPS.Models.APIV2;
+using BluebirdPS.Models.Exceptions;
 using System.Text.RegularExpressions;
 
 namespace BluebirdPS.Core
@@ -270,7 +269,7 @@ namespace BluebirdPS.Core
             {
                 foreach (dynamic thisMedia in input.includes.media)
                 {
-                    twitterResponse.Add(new Media(thisMedia));
+                    twitterResponse.Add(new Models.APIV2.Media(thisMedia));
                 }
             }
             if (Helpers.HasProperty(input.includes, "polls"))

@@ -1,7 +1,7 @@
 ﻿using System;
 using BluebirdPS.Models.APIV2.Metrics.Media;
 
-namespace BluebirdPS.Models.APIV2.MediaInfo
+namespace BluebirdPS.Models.APIV2
 {
     public enum MediaType
     {

@@ -5,6 +5,7 @@ using System.Management.Automation;
 using System.Management.Automation.Runspaces;
 using System.Collections;
 using System.Linq;
+using BluebirdPS.Models;
 
 namespace BluebirdPS.Cmdlets.Base
 {
