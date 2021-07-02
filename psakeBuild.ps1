@@ -54,13 +54,14 @@ task DotNetBuild -Depends 'StageFiles' {
     $FileListParentFolder = '{0}{1}' -f $PSBPreference.Build.ModuleOutDir,[IO.Path]::DirectorySeparatorChar
     $OutputLibFolder = [IO.Path]::Combine($PSBPreference.Build.ModuleOutDir,'lib')
     $DotNetSrcFolder = [IO.Path]::Combine($env:BHProjectPath,'src')
+    $Libraries = [IO.Path]::Combine($OutputLibFolder,"$env:BHProjectName.dll")
 
-    dotnet build $DotNetSrcFolder -o $OutputLibFolder
+    dotnet publish $DotNetSrcFolder -o $OutputLibFolder
     if ($LASTEXITCODE -ne 0) {
         'DotNetBuild task failed' | Write-Error -ErrorAction Stop
     }
 
-    $Libraries = Get-ChildItem -Path $OutputLibFolder -Filter '*.dll'
+    $Libraries = Get-ChildItem -Path $Libraries
     $LibraryList = $Libraries| ForEach-Object {
         $_.FullName.Replace($FileListParentFolder,'')
     }

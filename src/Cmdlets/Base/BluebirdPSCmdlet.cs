@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Management.Automation;
-using System.Management.Automation.Runspaces;
-using System.Collections;
-using System.Linq;
+﻿using System.Management.Automation;
+using AutoMapper;
+using BluebirdPS.Core;
 using BluebirdPS.Models;
+using Tweetinvi;
+using Mapper = BluebirdPS.Models.Mapper;
 
 namespace BluebirdPS.Cmdlets.Base
 {
@@ -14,6 +12,14 @@ namespace BluebirdPS.Cmdlets.Base
         [Parameter()]
         public SwitchParameter NoPagination { get; set; }
 
+        internal static IMapper mapper = Mapper.GetMapper();
+
+        internal static TwitterClient client = new TwitterClient(
+            Metadata.OAuth.ApiKey,
+            Metadata.OAuth.ApiSecret,
+            Metadata.OAuth.AccessToken,
+            Metadata.OAuth.AccessTokenSecret
+        );
     }
 
     public abstract class BluebirdPSUserCmdlet : BluebirdPSCmdlet

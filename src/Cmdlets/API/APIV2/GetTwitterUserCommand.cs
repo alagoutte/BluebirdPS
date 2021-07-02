@@ -12,7 +12,6 @@ namespace BluebirdPS.Cmdlets.APIV2
     /// <summary>
     /// 
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "TwitterUser")]
     public class GetTwitterUserCommand : BluebirdPSUserCmdlet
     {
         [Parameter(ValueFromPipeline = true)]
