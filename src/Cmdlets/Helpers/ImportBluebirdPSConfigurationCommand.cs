@@ -1,27 +1,15 @@
-﻿using System.Management.Automation;
-using System.IO;
+﻿using BluebirdPS.Cmdlets.Base;
 using BluebirdPS.Core;
-
+using System.Management.Automation;
 namespace BluebirdPS.Cmdlets.Helpers
 {
     [Cmdlet(VerbsData.Import, "BluebirdPSConfiguration")]
-    public class ImportBluebirdPSConfigurationCommand : PSCmdlet
+    public class ImportBluebirdPSConfigurationCommand : BluebirdPSCmdlet
     {
-        readonly string _fileDescription = "BluebirdPS configuration file";
-
-        protected override void EndProcessing()
+        protected override void ProcessRecord()
         {
-            WriteVerbose($"Checking for {_fileDescription}.");
-
-            if (File.Exists(Metadata.Configuration.ConfigurationPath))
-            {
-                WriteVerbose($"Importing {_fileDescription}.");
-                //Metadata.Configuration = Parsers.ConvertFromJson<Configuration>(File.ReadAllText(Metadata.Configuration.ConfigurationPath));
-            }
-            else
-            {
-                Metadata.Configuration = new Configuration();
-            }
+            WriteVerbose($"Importing BluebirdPS configuration file.");
+            Config.ImportConfiguration();
         }
     }
 }

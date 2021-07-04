@@ -1,24 +1,10 @@
-﻿using System;
+﻿using BluebirdPS.Models;
+using System;
 using System.IO;
 
 namespace BluebirdPS.Core
 {
-    public enum RateLimitAction
-    {
-        // type of output stream used to display a message
-        // when the remaining calls are at the RateLimitThreshold or less
 
-        Verbose,
-        Warning,
-        Error
-    }
-
-    public enum OutputType
-    {
-        CustomClasses,
-        PSCustomObject,
-        JSON
-    }
 
     public class Configuration
     {

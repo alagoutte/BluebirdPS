@@ -21,7 +21,8 @@ namespace BluebirdPS.Models
             switch (objectType.Name)
             {
                 case "TwitterRequest":
-                    if (objectType.GetProperty("Endpoint").GetValue(validationObject, null) != null) {
+                    if (objectType.GetProperty("Endpoint").GetValue(validationObject, null) != null)
+                    {
                         return;
                     }
                     else

@@ -1,7 +1,7 @@
-﻿using System;
+﻿using BluebirdPS.Models.APIV2.Metrics.Tweet;
+using System;
 using System.Collections.Generic;
 using System.Management.Automation;
-using BluebirdPS.Models.APIV2.Metrics.Tweet;
 
 namespace BluebirdPS.Models.APIV2
 {

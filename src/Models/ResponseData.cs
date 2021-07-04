@@ -2,9 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Management.Automation;
-using System.Linq;
 using System.Net;
-using System.Management.Automation.Runspaces;
 
 namespace BluebirdPS.Models
 {
@@ -26,11 +24,11 @@ namespace BluebirdPS.Models
         public int? RateLimit { get; set; }
         public int? RateLimitRemaining { get; set; }
         public DateTime RateLimitReset { get; set; }
-        public Dictionary<string,IEnumerable<string>> HeaderResponse { get; set; }
+        public Dictionary<string, IEnumerable<string>> HeaderResponse { get; set; }
         public string ApiVersion { get; set; }
         public dynamic ApiResponse { get; set; }
 
         public ResponseData() { }
- 
+
     }
 }

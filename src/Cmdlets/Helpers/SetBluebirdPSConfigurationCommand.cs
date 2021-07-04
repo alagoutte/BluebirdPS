@@ -1,13 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Management.Automation;
-using System.Linq;
-using System.Reflection;
+﻿using BluebirdPS.Cmdlets.Base;
 using BluebirdPS.Core;
+using BluebirdPS.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Management.Automation;
+using System.Reflection;
 
 namespace BluebirdPS.Cmdlets.Helpers
 {
     [Cmdlet(VerbsCommon.Set, "BluebirdPSConfiguration")]
-    public class SetBluebirdPSConfigurationCommand : PSCmdlet
+    public class SetBluebirdPSConfigurationCommand : BluebirdPSCmdlet
     {
         [Parameter]
         public RateLimitAction RateLimitAction { get; set; }
@@ -28,17 +30,16 @@ namespace BluebirdPS.Cmdlets.Helpers
                 string message = $"Setting configuration value for {config} to '{configValue}'.";
                 WriteVerbose(message);
 
-                PropertyInfo property = Metadata.Configuration.GetType().GetProperty(config);
+                PropertyInfo property = configuration.GetType().GetProperty(config);
                 if (property != null)
                 {
-                    property.SetValue(Metadata.Configuration, configValue);
+                    property.SetValue(configuration, configValue);
                 }
             }
 
             if (Export.IsPresent)
             {
-                ExportBluebirdPSConfigurationCommand exportConfiguration = new ExportBluebirdPSConfigurationCommand();
-                WriteObject(exportConfiguration.Invoke());
+                Config.ExportConfiguration();
             }
             else
             {

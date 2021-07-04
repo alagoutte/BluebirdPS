@@ -5,9 +5,9 @@ namespace BluebirdPS.Models.APIV1
     public class FriendshipConnections : TwitterObject
     {
         public string Id { get; private set; }
-        public string UserName { get; private set; }        
+        public string UserName { get; private set; }
         public List<string> Connections { get; private set; } = new List<string>();
-        
+
         public FriendshipConnections(dynamic input)
         {
             OriginalObject = input;
@@ -17,8 +17,8 @@ namespace BluebirdPS.Models.APIV1
 
             foreach (string connection in input.connections)
             {
-                Connections.Add(Core.Helpers.ToTitleCase(connection).Replace("_",null));
+                Connections.Add(Core.Helpers.ToTitleCase(connection).Replace("_", null));
             }
-        }      
+        }
     }
 }

@@ -1,6 +1,6 @@
-﻿using System;
+﻿using BluebirdPS.Models.APIV2.Metrics.User;
+using System;
 using System.Collections.Generic;
-using BluebirdPS.Models.APIV2.Metrics.User;
 
 namespace BluebirdPS.Models.APIV2
 {

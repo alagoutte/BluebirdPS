@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text.Json;
-using Newtonsoft.Json;
-using BluebirdPS.Models;
+﻿using BluebirdPS.Models;
 using BluebirdPS.Models.APIV1;
 using BluebirdPS.Models.APIV2;
 using BluebirdPS.Models.Exceptions;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace BluebirdPS.Core
 {
     public class Parsers
-    {        
+    {
         public static string GetErrorCategory(string errorType)
         {
             Hashtable _errorCategoryV2 = new Hashtable
@@ -21,7 +19,7 @@ namespace BluebirdPS.Core
                 { "https://api.twitter.com/2/problems/client-disconnected", "ConnectionError" },
                 { "https://api.twitter.com/2/problems/client-forbidden", "PermissionDenied"},
                 { "https://api.twitter.com/2/problems/disallowed-resource", "PermissionDenied"},
-                { "https://api.twitter.com/2/problems/duplicate-rules", "InvalidOperation" },                
+                { "https://api.twitter.com/2/problems/duplicate-rules", "InvalidOperation" },
                 { "https://api.twitter.com/2/problems/invalid-request", "InvalidArgument" },
                 { "https://api.twitter.com/2/problems/invalid-rules", "InvalidArgument" },
                 { "https://api.twitter.com/2/problems/not-authorized-for-field", "PermissionDenied" },
@@ -32,7 +30,7 @@ namespace BluebirdPS.Core
                 { "https://api.twitter.com/2/problems/rule-cap", "QuotaExceeded" },
                 { "https://api.twitter.com/2/problems/streaming-connection", "ConnectionError" },
                 { "https://api.twitter.com/2/problems/unsupported-authentication", "AuthenticationError" },
-                { "https://api.twitter.com/2/problems/usage-capped", "QuotaExceeded" }                
+                { "https://api.twitter.com/2/problems/usage-capped", "QuotaExceeded" }
             };
 
             if (_errorCategoryV2.ContainsKey(errorType))
@@ -47,7 +45,7 @@ namespace BluebirdPS.Core
 
         public static string GetErrorCategory(int statusCode, int errorCode)
         {
-            Hashtable _errorCategoryV1= new Hashtable()
+            Hashtable _errorCategoryV1 = new Hashtable()
             {
                 { 400, new Hashtable()
                     {
@@ -184,7 +182,7 @@ namespace BluebirdPS.Core
 
             return "NotSpecified";
         }
-        
+
         internal static Exception GetTwitterAPIException(string exceptionType, string errorMessage)
         {
             return exceptionType switch
@@ -282,7 +280,7 @@ namespace BluebirdPS.Core
 
             return twitterResponse;
         }
-        
+
         internal static List<object> ParseApiV1Response(dynamic input)
         {
             List<object> twitterResponse = new List<object>();

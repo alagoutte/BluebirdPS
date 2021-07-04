@@ -1,5 +1,5 @@
-﻿using System;
-using BluebirdPS.Models.APIV2.Metrics.Media;
+﻿using BluebirdPS.Models.APIV2.Metrics.Media;
+using System;
 
 namespace BluebirdPS.Models.APIV2
 {
@@ -58,13 +58,14 @@ namespace BluebirdPS.Models.APIV2
                     PromotedMetrics = new Promoted(input.promoted_metrics);
                 }
             }
-            catch {
+            catch
+            {
                 // any missing properties that are not on the input object
                 // and not caught with Helpers.HasProperty if statement,
                 // do not fail (for now)
             }
-            }
-
         }
+
+    }
 
 }

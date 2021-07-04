@@ -20,7 +20,7 @@ namespace BluebirdPS.Models.APIV2
 
         public override string ToString()
         {
-            return $"Start: {Start.ToString("G",DateTimeFormatInfo.InvariantInfo)}, End: {End.ToString("G", DateTimeFormatInfo.InvariantInfo)}, Count: {Count}";
+            return $"Start: {Start.ToString("G", DateTimeFormatInfo.InvariantInfo)}, End: {End.ToString("G", DateTimeFormatInfo.InvariantInfo)}, Count: {Count}";
         }
     }
 
@@ -29,7 +29,7 @@ namespace BluebirdPS.Models.APIV2
         public string SearchString { get; set; }
         public string Granularity { get; set; }
         public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }        
+        public DateTime EndTime { get; set; }
         public long TotalCount { get; set; }
 
         public TweetCountSummary() { }
@@ -38,7 +38,7 @@ namespace BluebirdPS.Models.APIV2
             SearchString = search;
             Granularity = granularity;
             StartTime = starttime.ToLocalTime();
-            EndTime = endtime.ToLocalTime();            
+            EndTime = endtime.ToLocalTime();
             TotalCount = totalCount;
         }
 

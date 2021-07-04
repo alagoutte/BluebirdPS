@@ -1,5 +1,4 @@
 ﻿using System.Management.Automation;
-using BluebirdPS.Cmdlets.Base;
 
 namespace BluebirdPS.Cmdlets.Authentication
 {

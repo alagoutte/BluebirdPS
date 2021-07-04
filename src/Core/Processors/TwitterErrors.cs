@@ -1,6 +1,6 @@
-﻿using System.Management.Automation;
+﻿using BluebirdPS.Models.Exceptions;
+using System.Management.Automation;
 using Tweetinvi.Exceptions;
-using BluebirdPS.Models.Exceptions;
 
 namespace BluebirdPS.Core.Processors
 {

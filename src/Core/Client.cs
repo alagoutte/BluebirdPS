@@ -1,17 +1,17 @@
-﻿using System;
-using Tweetinvi;
-using Tweetinvi.Events;
+﻿using AutoMapper;
 using BluebirdPS.Models;
-using AutoMapper;
+using System;
+using System.Collections.Generic;
+using Tweetinvi;
 using Tweetinvi.Core.Exceptions;
-using System.Management.Automation;
-using System.Linq;
+using Tweetinvi.Events;
 
 namespace BluebirdPS.Core
 {
-    internal class BluebirdPSClient
+    internal class Client
     {
-        static BluebirdPSClient() {
+        static Client()
+        {
 
             TweetinviEvents.BeforeWaitingForRequestRateLimits += BeforeWaitingForRequestRateLimits;
             TweetinviEvents.WaitingForRateLimit += WaitingForRateLimit;
@@ -37,36 +37,37 @@ namespace BluebirdPS.Core
             return client;
         }
 
+        private static List<ResponseData> history = History.GetOrCreateInstance();
         private static void AfterExecutingRequest(object sender, AfterExecutingQueryEventArgs args)
         {
             if (args.Url != "https://api.twitter.com/1.1/application/rate_limit_status.json")
             {
-                IMapper mapper = BluebirdPSMapper.GetOrCreateInstance();
-                ResponseData history = mapper.Map<ResponseData>(args);
-                Metadata.History.Add(history);
+                IMapper mapper = Mapper.GetOrCreateInstance();
+                ResponseData historyRecord = mapper.Map<ResponseData>(args);
+                history.Add(historyRecord);
 
-                Metadata.AfterExecutingRequest.Add(args);
+                Config.AfterExecutingRequest.Add(args);
             }
         }
 
         private static void OnTwitterException(object sender, ITwitterException e)
         {
-            Metadata.OnTwitterException.Add(e);
+            Config.OnTwitterException.Add(e);
         }
 
         private static void BeforeExecutingRequest(object sender, BeforeExecutingRequestEventArgs e)
         {
-            Metadata.BeforeExecutingRequest.Add(e);
+            Config.BeforeExecutingRequest.Add(e);
         }
 
         private static void WaitingForRateLimit(object sender, WaitingForRateLimitEventArgs e)
         {
-            Metadata.WaitingForRateLimit.Add(e);
+            Config.WaitingForRateLimit.Add(e);
         }
 
         private static void BeforeWaitingForRequestRateLimits(object sender, BeforeExecutingRequestEventArgs e)
         {
-            Metadata.BeforeWaitingForRequestRateLimits.Add(e);
+            Config.BeforeWaitingForRequestRateLimits.Add(e);
         }
     }
 }

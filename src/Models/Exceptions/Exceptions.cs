@@ -13,7 +13,7 @@ namespace BluebirdPS.Models.Exceptions
     {
         public BluebirdPSInvalidOperationException(string message) : base(message)
         {
-            
+
         }
     }
 

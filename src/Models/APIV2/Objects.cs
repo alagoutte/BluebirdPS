@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Management.Automation;
 using System.Linq;
+using System.Management.Automation;
 
 namespace BluebirdPS.Models.APIV2
 {
@@ -139,7 +139,7 @@ namespace BluebirdPS.Models.APIV2
         }
 
         public override string ToString()
-        {            
+        {
             return $"#{Tag}";
         }
     }
@@ -156,12 +156,12 @@ namespace BluebirdPS.Models.APIV2
 
             Start = input.start;
             End = input.end;
-            
+
             if (Core.Helpers.HasProperty(input, "tag"))
             {
                 Tag = input.tag;
             }
-            if(Core.Helpers.HasProperty(input, "username"))
+            if (Core.Helpers.HasProperty(input, "username"))
             {
                 UserName = input.username;
             }
@@ -275,7 +275,8 @@ namespace BluebirdPS.Models.APIV2
         public string VotingStatus { get; set; }
 
         public Poll() { }
-        public Poll(dynamic input) {
+        public Poll(dynamic input)
+        {
             OriginalObject = input;
 
             Id = input.id;
@@ -318,7 +319,7 @@ namespace BluebirdPS.Models.APIV2
 
             Position = input.position;
             Label = input.label;
-            Votes = input.votes;            
+            Votes = input.votes;
         }
 
         public override string ToString()
@@ -340,7 +341,8 @@ namespace BluebirdPS.Models.APIV2
         public string PlaceType { get; set; }
 
         public Place() { }
-        public Place(dynamic input) {
+        public Place(dynamic input)
+        {
 
             OriginalObject = input;
         }

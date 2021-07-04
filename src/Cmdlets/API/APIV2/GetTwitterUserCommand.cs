@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Management.Automation;
-using BluebirdPS.Cmdlets.Base;
+﻿using BluebirdPS.Cmdlets.Base;
 using BluebirdPS.Core.Processors;
 using BluebirdPS.Models.APIV2;
-using Tweetinvi.Models.V2;
+using System.Collections.Generic;
+using System.Management.Automation;
 using Tweetinvi.Exceptions;
-using BluebirdPS.Core;
-using Tweetinvi;
+using Tweetinvi.Models.V2;
 
 namespace BluebirdPS.Cmdlets.API.APIV2
 {
@@ -18,7 +16,7 @@ namespace BluebirdPS.Cmdlets.API.APIV2
 
         public List<string> User { get; set; }
 
-        Dictionary<string, List<string>> userList = new Dictionary<string,List<string>>()
+        Dictionary<string, List<string>> userList = new Dictionary<string, List<string>>()
         {
             { "Names", new List<string>()  },
             { "Ids", new List<string>() }
@@ -26,7 +24,7 @@ namespace BluebirdPS.Cmdlets.API.APIV2
 
         protected override void BeginProcessing()
         {
-            
+
         }
         protected override void ProcessRecord()
         {
@@ -63,7 +61,7 @@ namespace BluebirdPS.Cmdlets.API.APIV2
             {
                 try
                 {
-                    UserV2 result = client.UsersV2.GetUserByNameAsync(Metadata.Configuration.AuthUserName).GetAwaiter().GetResult().User;
+                    UserV2 result = client.UsersV2.GetUserByNameAsync(configuration.AuthUserName).GetAwaiter().GetResult().User;
                     results.Add(mapper.Map<User>(result));
                 }
                 catch (TwitterException ex)

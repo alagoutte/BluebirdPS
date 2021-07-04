@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Globalization;
-using System.Management.Automation;
-using System.IO;
 using System.Collections.ObjectModel;
+using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Management.Automation;
 
 namespace BluebirdPS.Core
 {
@@ -25,7 +25,7 @@ namespace BluebirdPS.Core
         {
             return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(input);
         }
-        
+
         public static DateTime? ConvertFromV1Date(string input)
         {
             return input != null ? (DateTime?)DateTime.ParseExact(input, "ddd MMM dd HH:mm:ss zzz yyyy", CultureInfo.CurrentCulture) : null;
@@ -58,13 +58,13 @@ namespace BluebirdPS.Core
             {
                 var variableInfo = pwsh.AddCommand("Get-Variable").AddParameter("Name", variableName).AddParameter("ValueOnly", true).Invoke().ToList();
                 foreach (PSObject variable in variableInfo)
-                {                    
+                {
                     return variable;
                 }
             }
             return null;
         }
-        
+
         public static void SetVariable(string variableName, object value, string scope)
         {
             using PowerShell pwsh = PowerShell.Create(RunspaceMode.CurrentRunspace);

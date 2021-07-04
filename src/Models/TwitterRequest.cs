@@ -1,11 +1,10 @@
-﻿using System;
+﻿using BluebirdPS.Models.APIV2;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Management.Automation;
-using BluebirdPS.Models.APIV2;
 using System.Linq;
+using System.Management.Automation;
 using System.Management.Automation.Runspaces;
-using BluebirdPS.Core;
 
 namespace BluebirdPS.Models
 {
@@ -19,7 +18,7 @@ namespace BluebirdPS.Models
         public Hashtable Query { get; set; } = new Hashtable();
         public string Body { get; set; }
         public Hashtable Form { get; set; }
-        public string ContentType { get; set; } = "application/json";        
+        public string ContentType { get; set; } = "application/json";
         public ExpansionTypes? ExpansionType { get; set; }
         public bool NonPublicMetrics { get; set; }
         public bool PromotedMetrics { get; set; }
@@ -35,9 +34,10 @@ namespace BluebirdPS.Models
         // ----------------------------------------------------------------------------------------
         // Constructor
         // The intent is for the class to be instantiated using accelerator and hashtable
-        public TwitterRequest() 
+        public TwitterRequest()
         {
-            try {
+            try
+            {
                 CallStackFrame _callStackFrame = Runspace.DefaultRunspace.Debugger.GetCallStack().ToList().First();
                 CommandName = _callStackFrame.InvocationInfo.MyCommand.Name;
                 InvocationInfo = _callStackFrame.InvocationInfo;
@@ -72,10 +72,10 @@ namespace BluebirdPS.Models
             {
                 List<string> queryFields = (from DictionaryEntry kvp in Query
                                             select $"{Uri.EscapeDataString(kvp.Key.ToString())}={Uri.EscapeDataString(kvp.Value.ToString())}").ToList();
-                
+
                 RequestUri = $"{Endpoint.AbsoluteUri.TrimEnd('/')}?{string.Join("&", queryFields)}";
-            
-            } 
+
+            }
             else
             {
                 RequestUri = Endpoint.AbsoluteUri;
@@ -113,14 +113,14 @@ namespace BluebirdPS.Models
                     Query.Add("media.fields", ObjectFields.GetFieldList("Media", NonPublicMetrics, OrganicMetrics, PromotedMetrics));
                     Query.Add("poll.fields", ObjectFields.GetFieldList("Poll"));
                     Query.Add("place.fields", ObjectFields.GetFieldList("Place"));
-                }            
+                }
                 else if (ExpansionType == ExpansionTypes.User)
                 {
                     Query.Add("expansions", ExpansionFields.GetExpansionFields(ExpansionTypes.User));
                     Query.Add("tweet.fields", ObjectFields.GetFieldList("Tweet", NonPublicMetrics, OrganicMetrics, PromotedMetrics));
                 }
             }
-             _hasExpansionsIncluded = true;
+            _hasExpansionsIncluded = true;
         }
 
         //public void InvokeRequest()

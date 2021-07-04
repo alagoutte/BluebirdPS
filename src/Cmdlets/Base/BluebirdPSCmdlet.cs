@@ -1,22 +1,29 @@
-﻿using System.Management.Automation;
-using AutoMapper;
+﻿using AutoMapper;
 using BluebirdPS.Core;
 using BluebirdPS.Models;
+using System.Collections.Generic;
+using System.Management.Automation;
 using Tweetinvi;
 
 namespace BluebirdPS.Cmdlets.Base
 {
     public abstract class BluebirdPSCmdlet : PSCmdlet
     {
+        internal static Configuration configuration = Config.GetOrCreateInstance();
+        internal static List<ResponseData> history = History.GetOrCreateInstance();
+    }
+
+    public abstract class BluebirdPSClientCmdlet : BluebirdPSCmdlet
+    {
         [Parameter()]
         public SwitchParameter NoPagination { get; set; }
 
-        internal static IMapper mapper = BluebirdPSMapper.GetOrCreateInstance();
+        internal static IMapper mapper = Core.Mapper.GetOrCreateInstance();
 
-        internal static TwitterClient client = BluebirdPSClient.GetOrCreateInstance();
+        internal static TwitterClient client = Client.GetOrCreateInstance();
     }
 
-    public abstract class BluebirdPSUserCmdlet : BluebirdPSCmdlet
+    public abstract class BluebirdPSUserCmdlet : BluebirdPSClientCmdlet
     {
         [Parameter()]
         public SwitchParameter IncludeExpansions { get; set; }
@@ -24,7 +31,7 @@ namespace BluebirdPS.Cmdlets.Base
         internal readonly ExpansionTypes ExpansionType = ExpansionTypes.User;
     }
 
-    public abstract class BluebirdPSTweetCmdlet : BluebirdPSCmdlet
+    public abstract class BluebirdPSTweetCmdlet : BluebirdPSClientCmdlet
     {
         [Parameter()]
         public SwitchParameter NonPublicMetrics { get; set; }
