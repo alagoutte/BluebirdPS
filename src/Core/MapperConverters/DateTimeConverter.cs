@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using System;
 
-namespace BluebirdPS.Core.Converters
+namespace BluebirdPS.Core.MapperConverters
 {
     internal class DateTimeConverter : ITypeConverter<DateTimeOffset, DateTime>
     {

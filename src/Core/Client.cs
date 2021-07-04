@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using Tweetinvi;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Events;
+using Tweetinvi.Models;
+using BluebirdPS.Core;
+using Tweetinvi.Exceptions;
 
 namespace BluebirdPS.Core
 {
@@ -13,9 +16,9 @@ namespace BluebirdPS.Core
         static Client()
         {
 
-            TweetinviEvents.BeforeWaitingForRequestRateLimits += BeforeWaitingForRequestRateLimits;
-            TweetinviEvents.WaitingForRateLimit += WaitingForRateLimit;
-            TweetinviEvents.BeforeExecutingRequest += BeforeExecutingRequest;
+            //TweetinviEvents.BeforeWaitingForRequestRateLimits += BeforeWaitingForRequestRateLimits;
+            //TweetinviEvents.WaitingForRateLimit += WaitingForRateLimit;
+            //TweetinviEvents.BeforeExecutingRequest += BeforeExecutingRequest;
             TweetinviEvents.AfterExecutingRequest += AfterExecutingRequest;
             TweetinviEvents.OnTwitterException += OnTwitterException;
         }
@@ -24,17 +27,18 @@ namespace BluebirdPS.Core
         public static TwitterClient GetOrCreateInstance() => client ??= Create();
         private static TwitterClient Create()
         {
-            client = new TwitterClient(
-                Environment.GetEnvironmentVariable("BLUEBIRDPS_API_KEY"),
-                Environment.GetEnvironmentVariable("BLUEBIRDPS_API_SECRET"),
-                Environment.GetEnvironmentVariable("BLUEBIRDPS_ACCESS_TOKEN"),
-                Environment.GetEnvironmentVariable("BLUEBIRDPS_ACCESS_TOKEN_SECRET")
-            );
+            TwitterCredentials credentials = Config.ImportCredentials();
+            
+            if (credentials != null)
+            {
+                client = new TwitterClient(credentials);
 
-            client.Config.RateLimitTrackerMode = RateLimitTrackerMode.TrackOnly;
-            TweetinviEvents.SubscribeToClientEvents(client);
+                client.Config.RateLimitTrackerMode = RateLimitTrackerMode.TrackOnly;
+                TweetinviEvents.SubscribeToClientEvents(client);
+                return client;
+            }
 
-            return client;
+            throw new TwitterNullCredentialsException();
         }
 
         private static List<ResponseData> history = History.GetOrCreateInstance();
@@ -55,19 +59,19 @@ namespace BluebirdPS.Core
             Config.OnTwitterException.Add(e);
         }
 
-        private static void BeforeExecutingRequest(object sender, BeforeExecutingRequestEventArgs e)
-        {
-            Config.BeforeExecutingRequest.Add(e);
-        }
+        //private static void BeforeExecutingRequest(object sender, BeforeExecutingRequestEventArgs e)
+        //{
+        //    Config.BeforeExecutingRequest.Add(e);
+        //}
 
-        private static void WaitingForRateLimit(object sender, WaitingForRateLimitEventArgs e)
-        {
-            Config.WaitingForRateLimit.Add(e);
-        }
+        //private static void WaitingForRateLimit(object sender, WaitingForRateLimitEventArgs e)
+        //{
+        //    Config.WaitingForRateLimit.Add(e);
+        //}
 
-        private static void BeforeWaitingForRequestRateLimits(object sender, BeforeExecutingRequestEventArgs e)
-        {
-            Config.BeforeWaitingForRequestRateLimits.Add(e);
-        }
+        //private static void BeforeWaitingForRequestRateLimits(object sender, BeforeExecutingRequestEventArgs e)
+        //{
+        //    Config.BeforeWaitingForRequestRateLimits.Add(e);
+        //}
     }
 }

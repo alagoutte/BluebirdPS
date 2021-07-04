@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using BluebirdPS.Core.Converters;
 using BluebirdPS.Models;
 using BluebirdPS.Models.APIV2;
 using BluebirdPS.Models.APIV2.Metrics.User;
 using System;
 using Tweetinvi.Events;
 using Tweetinvi.Models.V2;
+using BluebirdPS.Core.MapperConverters;
 
 namespace BluebirdPS.Core
 {

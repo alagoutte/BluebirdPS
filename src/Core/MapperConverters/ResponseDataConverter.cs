@@ -5,7 +5,7 @@ using System.Linq;
 using System.Management.Automation;
 using Tweetinvi.Events;
 
-namespace BluebirdPS.Core.Converters
+namespace BluebirdPS.Core.MapperConverters
 {
     internal class ResponseDataConverter : ITypeConverter<AfterExecutingQueryEventArgs, ResponseData>
     {

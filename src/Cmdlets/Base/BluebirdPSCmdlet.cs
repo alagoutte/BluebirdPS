@@ -4,6 +4,7 @@ using BluebirdPS.Models;
 using System.Collections.Generic;
 using System.Management.Automation;
 using Tweetinvi;
+using Mapper = BluebirdPS.Core.Mapper;
 
 namespace BluebirdPS.Cmdlets.Base
 {
@@ -18,8 +19,7 @@ namespace BluebirdPS.Cmdlets.Base
         [Parameter()]
         public SwitchParameter NoPagination { get; set; }
 
-        internal static IMapper mapper = Core.Mapper.GetOrCreateInstance();
-
+        internal static IMapper mapper = Mapper.GetOrCreateInstance();
         internal static TwitterClient client = Client.GetOrCreateInstance();
     }
 

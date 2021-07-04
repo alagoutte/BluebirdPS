@@ -10,9 +10,9 @@ namespace BluebirdPS.Cmdlets.Helpers
         protected override void ProcessRecord()
         {
             WriteObject(history, true);
-            WriteObject(Config.BeforeWaitingForRequestRateLimits, true);
-            WriteObject(Config.WaitingForRateLimit, true);
-            WriteObject(Config.BeforeExecutingRequest, true);
+            //WriteObject(Config.BeforeWaitingForRequestRateLimits, true);
+            //WriteObject(Config.WaitingForRateLimit, true);
+            //WriteObject(Config.BeforeExecutingRequest, true);
             WriteObject(Config.AfterExecutingRequest, true);
             WriteObject(Config.OnTwitterException, true);
         }

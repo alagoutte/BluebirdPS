@@ -30,4 +30,10 @@
         BluebirdPS,
         JSON
     }
+
+    internal enum CredentialsType
+    {
+        Application,
+        User
+    }
 }

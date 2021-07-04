@@ -8,7 +8,6 @@ namespace BluebirdPS.Core
 
     public class Configuration
     {
-
         public string AuthUserId { get; set; } = "292670084";
         public string AuthUserName { get; set; } = "thedavecarroll";
         public DateTime? AuthValidationDate { get; set; }
