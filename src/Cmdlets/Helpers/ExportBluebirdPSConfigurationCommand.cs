@@ -19,8 +19,8 @@ namespace BluebirdPS.Cmdlets.Helpers
             string message = $"Saved BluebirdPS Configuration to {_action} file: {Metadata.Configuration.ConfigurationPath}";
             WriteVerbose(message);
 
-            string _configuration = Parsers.ConvertToJson(Metadata.Configuration);
-            WriteObject(_configuration);
+            //string _configuration = Parsers.ConvertToJson(Metadata.Configuration);
+            //WriteObject(_configuration);
         }
         
     }

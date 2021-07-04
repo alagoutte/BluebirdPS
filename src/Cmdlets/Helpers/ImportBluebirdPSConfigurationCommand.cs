@@ -16,7 +16,7 @@ namespace BluebirdPS.Cmdlets.Helpers
             if (File.Exists(Metadata.Configuration.ConfigurationPath))
             {
                 WriteVerbose($"Importing {_fileDescription}.");
-                Metadata.Configuration = Parsers.ConvertFromJson<Configuration>(File.ReadAllText(Metadata.Configuration.ConfigurationPath));
+                //Metadata.Configuration = Parsers.ConvertFromJson<Configuration>(File.ReadAllText(Metadata.Configuration.ConfigurationPath));
             }
             else
             {

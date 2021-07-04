@@ -3,7 +3,6 @@ using AutoMapper;
 using BluebirdPS.Core;
 using BluebirdPS.Models;
 using Tweetinvi;
-using Mapper = BluebirdPS.Models.Mapper;
 
 namespace BluebirdPS.Cmdlets.Base
 {
@@ -12,14 +11,18 @@ namespace BluebirdPS.Cmdlets.Base
         [Parameter()]
         public SwitchParameter NoPagination { get; set; }
 
-        internal static IMapper mapper = Mapper.GetMapper();
+        internal static IMapper mapper = BluebirdPSMapper.GetOrCreateInstance();
 
-        internal static TwitterClient client = new TwitterClient(
-            Metadata.OAuth.ApiKey,
-            Metadata.OAuth.ApiSecret,
-            Metadata.OAuth.AccessToken,
-            Metadata.OAuth.AccessTokenSecret
-        );
+        internal static TwitterClient client = BluebirdPSClient.GetOrCreateInstance();
+
+        public BluebirdPSCmdlet()
+        {
+            Metadata.InvocationInfo = MyInvocation;
+        }
+        protected override void StopProcessing()
+        {
+            TweetinviEvents.UnsubscribeFromClientEvents(client);
+        }
     }
 
     public abstract class BluebirdPSUserCmdlet : BluebirdPSCmdlet

@@ -397,42 +397,6 @@ namespace BluebirdPS.Core
             return twitterResponse;
         }
 
-        internal static string ConvertToJson(object input)
-        {
-            JsonSerializerOptions options = new JsonSerializerOptions()
-            {
-                WriteIndented = true
-            };
-            
-            //return JsonSerializer.Serialize(input, options);
-            return JsonConvert.SerializeObject(input, Formatting.Indented);
-        }
-
-        internal static dynamic ConvertFromJson(string input)
-        {
-            //return JsonSerializer.Deserialize<dynamic>(input);
-            return JsonConvert.DeserializeObject(input);
-        }
-
-        internal static T ConvertFromJson<T>(string input)
-        {
-            //return JsonSerializer.Deserialize<T>(input);
-            return JsonConvert.DeserializeObject<T>(input);
-        }
-
-        internal static bool IsJson(string text)
-        {
-            try
-            {
-                _ = JsonConvert.DeserializeObject(text);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
         public static string GetUpdateFriendshipStatus(ResponseData response)
         {
             string following = response.Command == "Add-TwitterFriend" ? GetUserFromBody(response) : GetUserFromSegment(response);
