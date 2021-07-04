@@ -63,7 +63,7 @@ namespace BluebirdPS.Cmdlets.API.APIV2
             {
                 try
                 {
-                    UserV2 result = client.UsersV2.GetUserByNameAsync(Metadata.Configuration.AuthUserName).GetAwaiter().GetResult().User;                    
+                    UserV2 result = client.UsersV2.GetUserByNameAsync(Metadata.Configuration.AuthUserName).GetAwaiter().GetResult().User;
                     results.Add(mapper.Map<User>(result));
                 }
                 catch (TwitterException ex)

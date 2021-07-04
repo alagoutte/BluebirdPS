@@ -42,10 +42,18 @@ namespace BluebirdPS.Core
         {
             destination = new ResponseData();
 
+            try
+            {
+                // this does not work
+                using PowerShell pwsh = PowerShell.Create(RunspaceMode.NewRunspace);
+                    CallStackFrame _callStackFrame = pwsh.Runspace.Debugger.GetCallStack().ToList().First();
+                    destination.Command = _callStackFrame.InvocationInfo.MyCommand.Name;
+                    destination.InvocationInfo = _callStackFrame.InvocationInfo;
+            }
+            catch { }
+
             Uri endpointUri = new Uri(source.Url);
 
-            destination.Command = Metadata.InvocationInfo.MyCommand.Name;
-            destination.InvocationInfo = Metadata.InvocationInfo;
             destination.Timestamp = source.CompletedDateTime.DateTime;
             destination.HttpMethod = (HttpMethod)source.TwitterQuery.HttpMethod;
             destination.Uri = endpointUri;

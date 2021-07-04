@@ -4,6 +4,8 @@ using Tweetinvi.Events;
 using BluebirdPS.Models;
 using AutoMapper;
 using Tweetinvi.Core.Exceptions;
+using System.Management.Automation;
+using System.Linq;
 
 namespace BluebirdPS.Core
 {
@@ -40,7 +42,7 @@ namespace BluebirdPS.Core
             if (args.Url != "https://api.twitter.com/1.1/application/rate_limit_status.json")
             {
                 IMapper mapper = BluebirdPSMapper.GetOrCreateInstance();
-                ResponseData history = mapper.Map<ResponseData>(args);                
+                ResponseData history = mapper.Map<ResponseData>(args);
                 Metadata.History.Add(history);
 
                 Metadata.AfterExecutingRequest.Add(args);

@@ -30,16 +30,7 @@ namespace BluebirdPS.Models
         public string ApiVersion { get; set; }
         public dynamic ApiResponse { get; set; }
 
-        public ResponseData() {
-            CallStackFrame _callStackFrame;
-            try
-            {
-                _callStackFrame = Runspace.DefaultRunspace.Debugger.GetCallStack().ToList().First();
-                Command = _callStackFrame.InvocationInfo.MyCommand.Name;
-                InvocationInfo = _callStackFrame.InvocationInfo;
-            }
-            catch { }
-        }
+        public ResponseData() { }
  
     }
 }

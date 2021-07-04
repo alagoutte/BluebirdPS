@@ -14,15 +14,6 @@ namespace BluebirdPS.Cmdlets.Base
         internal static IMapper mapper = BluebirdPSMapper.GetOrCreateInstance();
 
         internal static TwitterClient client = BluebirdPSClient.GetOrCreateInstance();
-
-        public BluebirdPSCmdlet()
-        {
-            Metadata.InvocationInfo = MyInvocation;
-        }
-        protected override void StopProcessing()
-        {
-            TweetinviEvents.UnsubscribeFromClientEvents(client);
-        }
     }
 
     public abstract class BluebirdPSUserCmdlet : BluebirdPSCmdlet
