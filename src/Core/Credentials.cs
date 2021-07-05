@@ -2,8 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Management.Automation;
+using System.Security;
 
 namespace BluebirdPS.Core
 {
@@ -61,44 +61,23 @@ namespace BluebirdPS.Core
 
         internal static string ReadCredentialsFile()
         {
-            using PowerShell pwsh = PowerShell.Create(RunspaceMode.CurrentRunspace);
-            return pwsh.AddCommand("Get-Content")
-                    .AddParameter("Path", Config.credentialsPath)
-                    .Invoke<string>().ToList().First();
+            return PSCommands.GetContents(Config.credentialsPath);
         }
-        internal static OAuth ImportCredentialsFromFile(string input)
+
+        internal static OAuth ConvertCredentialsFromFile(string input)
         {
-            using PowerShell pwsh = PowerShell.Create(RunspaceMode.CurrentRunspace);
-            string credentialsFromDisk = pwsh.AddCommand("ConvertTo-SecureString")
-                .AddParameter("String",input)
-                .AddCommand("ConvertFrom-SecureString")
-                .AddParameter("AsPlainText", true)
-                .Invoke<string>().ToList().First();
+            SecureString credentialsFromDisk = PSCommands.ConvertToSecureString(input);
+            string stringCredentials = PSCommands.ConvertFromSecureString(credentialsFromDisk, true);
 
-            return JsonConverters.ConvertFromJson<OAuth>(credentialsFromDisk);
+            return JsonConverters.ConvertFromJson<OAuth>(stringCredentials);
         }
 
-        internal static void ExportCredentialsToFile()
+        internal static void ConvertCredentialsForFile()
         {
             string oAuthString = JsonConverters.ConvertToJson(oauth);
-            using PowerShell pwsh = PowerShell.Create(RunspaceMode.CurrentRunspace);
-            string secureString = pwsh.AddCommand("ConvertTo-SecureString")
-                .AddParameter("String", oAuthString)
-                .AddParameter("AsPlainText", true)
-                .AddCommand("ConvertFrom-SecureString")
-                .Invoke<string>().ToList().First();
-
-            File.WriteAllText(Config.credentialsPath, secureString);
-        }
-
-        internal static void SaveCredentialsToFile()
-        {
-
-        }
-
-        internal static void SaveCredentialsToEnvironmentVariables()
-        {
-
+            SecureString secureOAuth = PSCommands.ConvertToSecureString(oAuthString, true);
+            string credentialsToFile = PSCommands.ConvertFromSecureString(secureOAuth);
+            File.WriteAllText(Config.credentialsPath, credentialsToFile);
         }
     }
 }

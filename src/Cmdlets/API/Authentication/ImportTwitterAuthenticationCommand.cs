@@ -37,7 +37,7 @@ namespace BluebirdPS.Cmdlets.Authentication
                     string credentialsFile = Credentials.ReadCredentialsFile();
 
                     WriteVerbose("Importing credentials from credentials file.");
-                    oAuthCredentals = Credentials.ImportCredentialsFromFile(credentialsFile);
+                    oAuthCredentals = Credentials.ConvertCredentialsFromFile(credentialsFile);
 
                     WriteObject(oAuthCredentals);
                 }
@@ -46,7 +46,7 @@ namespace BluebirdPS.Cmdlets.Authentication
                     WriteWarning("Unable to import Twitter authentication data from credentials file.");
                     WriteWarning("Please use the Set-TwitterAuthentication command to update the required API keys and secrets.");
                 }
-            }            
+            }
         }
     }
 }

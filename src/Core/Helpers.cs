@@ -51,27 +51,6 @@ namespace BluebirdPS.Core
         {
             return input != null ? input.ToUniversalTime().ToString("s", CultureInfo.InvariantCulture) + "Z" : null;
         }
-
-        public static PSObject GetVariable(string variableName)
-        {
-            using (PowerShell pwsh = PowerShell.Create(RunspaceMode.CurrentRunspace))
-            {
-                var variableInfo = pwsh.AddCommand("Get-Variable").AddParameter("Name", variableName).AddParameter("ValueOnly", true).Invoke().ToList();
-                foreach (PSObject variable in variableInfo)
-                {
-                    return variable;
-                }
-            }
-            return null;
-        }
-
-        public static void SetVariable(string variableName, object value, string scope)
-        {
-            using PowerShell pwsh = PowerShell.Create(RunspaceMode.CurrentRunspace);
-            Collection<PSObject> variableInfo = pwsh.AddCommand("Set-Variable")
-                .AddParameter("Name", variableName)
-                .AddParameter("Value", value)
-                .AddParameter("Scope", scope).Invoke();
-        }
+        
     }
 }
