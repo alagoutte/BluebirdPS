@@ -1,13 +1,11 @@
 ﻿using AutoMapper;
 using BluebirdPS.Models;
-using System;
 using System.Collections.Generic;
 using Tweetinvi;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Events;
-using Tweetinvi.Models;
-using BluebirdPS.Core;
 using Tweetinvi.Exceptions;
+using Tweetinvi.Models;
 
 namespace BluebirdPS.Core
 {
@@ -27,8 +25,8 @@ namespace BluebirdPS.Core
         public static TwitterClient GetOrCreateInstance() => client ??= Create();
         private static TwitterClient Create()
         {
-            TwitterCredentials credentials = Config.ImportCredentials();
-            
+            TwitterCredentials credentials = Config.GetTwitterCredentials();
+
             if (credentials != null)
             {
                 client = new TwitterClient(credentials);

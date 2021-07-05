@@ -48,7 +48,8 @@
     'Export-BluebirdPSConfiguration',
     'Get-BluebirdPSHistory',
     'Get-TwitterUser',
-    'Test-TwitterAuthentication'
+    'Test-TwitterAuthentication',
+    'Import-TwitterAuthentication'
 
   VariablesToExport = @()
   Description = 'A Twitter Automation Client for PowerShell 7. Tweet, retweet, send direct messages, manage lists, and more.'

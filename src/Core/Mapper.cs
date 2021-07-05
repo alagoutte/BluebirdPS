@@ -1,18 +1,18 @@
 ﻿using AutoMapper;
+using BluebirdPS.Core.MapperConverters;
 using BluebirdPS.Models;
 using BluebirdPS.Models.APIV2;
 using BluebirdPS.Models.APIV2.Metrics.User;
 using System;
 using Tweetinvi.Events;
 using Tweetinvi.Models.V2;
-using BluebirdPS.Core.MapperConverters;
 
 namespace BluebirdPS.Core
 {
     internal class Mapper
     {
         private static IMapper mapper;
-        public static IMapper GetOrCreateInstance() => mapper ??= Create();
+
         private static IMapper Create()
         {
             MapperConfiguration mapperConfig = new MapperConfiguration(cfg =>
@@ -25,5 +25,7 @@ namespace BluebirdPS.Core
             });
             return mapperConfig.CreateMapper();
         }
+
+        public static IMapper GetOrCreateInstance() => mapper ??= Create();
     }
 }

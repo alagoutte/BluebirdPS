@@ -2,7 +2,7 @@
 
 namespace BluebirdPS.Core
 {
-    internal class Converters
+    internal class JsonConverters
     {
         internal static T ConvertFromJson<T>(string input)
         {
