@@ -59,12 +59,18 @@ namespace BluebirdPS.Core
             }
         }
 
-        internal static OAuth ImportCredentialsFromFile()
+        internal static string ReadCredentialsFile()
         {
             using PowerShell pwsh = PowerShell.Create(RunspaceMode.CurrentRunspace);
-            string credentialsFromDisk = pwsh.AddCommand("Get-Content")
-                .AddParameter("Path", Config.credentialsPath)
-                .AddCommand("ConvertTo-SecureString")
+            return pwsh.AddCommand("Get-Content")
+                    .AddParameter("Path", Config.credentialsPath)
+                    .Invoke<string>().ToList().First();
+        }
+        internal static OAuth ImportCredentialsFromFile(string input)
+        {
+            using PowerShell pwsh = PowerShell.Create(RunspaceMode.CurrentRunspace);
+            string credentialsFromDisk = pwsh.AddCommand("ConvertTo-SecureString")
+                .AddParameter("String",input)
                 .AddCommand("ConvertFrom-SecureString")
                 .AddParameter("AsPlainText", true)
                 .Invoke<string>().ToList().First();
