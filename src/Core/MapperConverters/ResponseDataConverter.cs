@@ -34,7 +34,10 @@ namespace BluebirdPS.Core.MapperConverters
             //destination.Form = null;
             destination.OAuthVersion = OAuthVersion.OAuth1a;
             //destination.Status = null;
-            destination.Server = source.HttpHeaders["Server"].First();
+            if (source.HttpHeaders.ContainsKey("Server"))
+            {
+                destination.Server = source.HttpHeaders["Server"].First();
+            }
 
             if (source.HttpHeaders.ContainsKey("x-response-time"))
             {

@@ -19,8 +19,19 @@ namespace BluebirdPS.Cmdlets.Base
         [Parameter()]
         public SwitchParameter NoPagination { get; set; }
 
+        [Parameter()]
+        public SwitchParameter NewClient
+        {
+            get { return _forceNewClient; }
+            set { _forceNewClient = NewClient; }
+        }
+
+        internal static bool _forceNewClient;
+
         internal static IMapper mapper = Mapper.GetOrCreateInstance();
-        internal static TwitterClient client = Client.GetOrCreateInstance();
+
+        internal static TwitterClient client = Client.GetOrCreateInstance(_forceNewClient);
+
     }
 
     public abstract class BluebirdPSUserCmdlet : BluebirdPSClientCmdlet

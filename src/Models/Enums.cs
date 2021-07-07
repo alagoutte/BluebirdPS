@@ -36,4 +36,10 @@
         Application,
         User
     }
+
+    internal enum CredentialsSource
+    {
+        Environment,
+        File
+    }
 }

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Management.Automation;
 
 namespace BluebirdPS.Core
@@ -51,6 +49,6 @@ namespace BluebirdPS.Core
         {
             return input != null ? input.ToUniversalTime().ToString("s", CultureInfo.InvariantCulture) + "Z" : null;
         }
-        
+
     }
 }

@@ -24,11 +24,11 @@ namespace BluebirdPS.Cmdlets.API.Authentication
             {
                 if (ApiKey == null)
                 {
-                    ApiKey = PSCommands.ReadHost("API Key",true);
+                    ApiKey = PSCommands.ReadHost("API Key", true);
                 }
                 if (ApiSecret == null)
                 {
-                    ApiSecret = PSCommands.ReadHost("API Secret",true);
+                    ApiSecret = PSCommands.ReadHost("API Secret", true);
                 }
                 if (AccessToken == null)
                 {

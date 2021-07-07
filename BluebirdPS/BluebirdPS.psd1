@@ -51,7 +51,8 @@
     'Test-TwitterAuthentication',
     'Import-TwitterAuthentication',
     'Set-TwitterAuthentication',
-    'Export-TwitterAuthentication'
+    'Export-TwitterAuthentication',
+    'Get-TweetInviClient'
 
   VariablesToExport = @()
   Description = 'A Twitter Automation Client for PowerShell 7. Tweet, retweet, send direct messages, manage lists, and more.'

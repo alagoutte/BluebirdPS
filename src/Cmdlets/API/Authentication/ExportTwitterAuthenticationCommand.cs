@@ -1,32 +1,30 @@
-﻿using BluebirdPS.Core;
-using BluebirdPS.Models;
+﻿using BluebirdPS.Cmdlets.Base;
+using BluebirdPS.Core;
 using System.IO;
 using System.Management.Automation;
 
 namespace BluebirdPS.Cmdlets.API.Authentication
 {
     [Cmdlet(VerbsData.Export, "TwitterAuthentication")]
-    public class ExportTwitterAuthenticationCommand : PSCmdlet
+    public class ExportTwitterAuthenticationCommand : BluebirdPSCmdlet
     {
-        OAuth oAuthCredentals = Credentials.GetOrCreateInstance();
-
         protected override void ProcessRecord()
         {
-            string action;
-            if (!File.Exists(Config.credentialsPath))
+            if (!File.Exists(configuration.CredentialsPath))
             {
-                action = "new";
-                _ = File.Create(Config.credentialsPath);
+                WriteVerbose($"Creating new credentials file: {configuration.CredentialsPath}");
+                _ = File.Create(configuration.CredentialsPath);
             }
             else
             {
-                action = "existing";
+                WriteVerbose($"Saving to existing credentials file: {configuration.CredentialsPath}");
             }
 
+            configuration.AuthLastExportDate = File.GetLastWriteTime(configuration.CredentialsPath);
 
+            Credentials.SaveCredentialsToFile();
+            WriteVerbose($"Credentials saved.");
 
-            base.ProcessRecord();
         }
-
     }
 }

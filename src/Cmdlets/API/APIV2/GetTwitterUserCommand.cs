@@ -51,7 +51,8 @@ namespace BluebirdPS.Cmdlets.API.APIV2
 
         protected override void EndProcessing()
         {
-            WriteVerbose($"Attempting to retrieve {userList["Names"].Count + userList["Ids"].Count} users.");
+            string message = (userList["Names"].Count + userList["Ids"].Count) == 0 ? "the authenticated user" : $"{userList["Names"].Count + userList["Ids"].Count} users";
+            WriteVerbose($"Attempting to retrieve {message}.");
 
             List<object> results = GetUser(MyInvocation.BoundParameters, userList);
             WriteObject(results, false);

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Tweetinvi;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Events;
-using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
 
 namespace BluebirdPS.Core
@@ -22,21 +21,25 @@ namespace BluebirdPS.Core
         }
 
         private static TwitterClient client;
-        public static TwitterClient GetOrCreateInstance() => client ??= Create();
+        public static TwitterClient GetOrCreateInstance(bool newInstance = false)
+        {
+
+            return newInstance ? Create() : client;
+
+        }
+
         private static TwitterClient Create()
         {
-            TwitterCredentials credentials = Config.GetTwitterCredentials();
+            _ = Credentials.GetOrCreateInstance(true);
 
-            if (credentials != null)
-            {
-                client = new TwitterClient(credentials);
+            TwitterCredentials credentials = Credentials.GetTwitterCredentials();
 
-                client.Config.RateLimitTrackerMode = RateLimitTrackerMode.TrackOnly;
-                TweetinviEvents.SubscribeToClientEvents(client);
-                return client;
-            }
+            client = new TwitterClient(credentials);
 
-            throw new TwitterNullCredentialsException();
+            client.Config.RateLimitTrackerMode = RateLimitTrackerMode.TrackOnly;
+            TweetinviEvents.SubscribeToClientEvents(client);
+            
+            return client;
         }
 
         private static List<ResponseData> history = History.GetOrCreateInstance();

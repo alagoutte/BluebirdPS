@@ -4,7 +4,6 @@ using System.IO;
 using System.Management.Automation;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Events;
-using Tweetinvi.Models;
 
 namespace BluebirdPS.Core
 {
@@ -29,12 +28,16 @@ namespace BluebirdPS.Core
                 _ = File.Create(configurationPath);
                 configuration = new Configuration()
                 {
+                    AuthUserId = "292670084",
+                    AuthUserName = "thedavecarroll",
                     RateLimitAction = RateLimitAction.Warning,
                     RateLimitThreshold = 5,
                     ConfigurationPath = configurationPath,
                     CredentialsPath = credentialsPath,
                     OutputType = OutputType.BluebirdPS
                 };
+
+                ExportConfiguration();
             }
             else
             {
@@ -54,22 +57,7 @@ namespace BluebirdPS.Core
         internal static void ExportConfiguration()
         {
             string config = JsonConverters.ConvertToJson(configuration);
-            File.WriteAllTextAsync(configuration.ConfigurationPath, config);
-        }
-
-        internal static TwitterCredentials GetTwitterCredentials()
-        {
-            OAuth bluebirdPSOAuth = Credentials.GetOrCreateInstance();
-            if (bluebirdPSOAuth != null)
-            {
-                return new TwitterCredentials(
-                            bluebirdPSOAuth.ApiKey,
-                            bluebirdPSOAuth.ApiSecret,
-                            bluebirdPSOAuth.AccessToken,
-                            bluebirdPSOAuth.AccessTokenSecret
-                        );
-            }
-            return null;
+            File.WriteAllTextAsync(configurationPath, config);
         }
 
         internal static InvocationInfo InvocationInfo { get; set; }

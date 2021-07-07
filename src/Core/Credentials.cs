@@ -2,8 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Management.Automation;
 using System.Security;
+using Tweetinvi.Models;
 
 namespace BluebirdPS.Core
 {
@@ -13,11 +13,36 @@ namespace BluebirdPS.Core
 
         private static OAuth Create()
         {
-            return new OAuth();
+            if (EnvVarContainsCredentials())
+            {
+                oauth = GetCredentialsFromEnvVar();
+            }
+            else
+            {
+                string credentialsFile = ReadCredentialsFromFile();
+                oauth = GetCredentialsFromFile(credentialsFile);
+            }
+
+            return oauth;
         }
 
-        public static OAuth GetOrCreateInstance() => oauth ??= Create();
+        public static OAuth GetOrCreateInstance(bool newInstance = false)
+        {
 
+            return newInstance ? Create() : oauth;
+
+        }
+
+        internal static TwitterCredentials GetTwitterCredentials()
+        {
+            return new TwitterCredentials(
+                    oauth.ApiKey,
+                    oauth.ApiSecret,
+                    oauth.AccessToken,
+                    oauth.AccessTokenSecret
+                );
+
+        }
         internal static bool EnvVarContainsCredentials()
         {
             string apiKey = Environment.GetEnvironmentVariable("BLUEBIRDPS_API_KEY");
@@ -59,12 +84,31 @@ namespace BluebirdPS.Core
             }
         }
 
-        internal static string ReadCredentialsFile()
+        internal static OAuth GetCredentialsFromEnvVar()
+        {
+            OAuth credentials = new OAuth();
+
+            Dictionary<string, string> envCredentials = GetCredentialsFromEnvVars();
+
+            credentials.ApiKey = envCredentials["BLUEBIRDPS_API_KEY"];
+            credentials.ApiSecret = envCredentials["BLUEBIRDPS_API_SECRET"];
+            credentials.AccessToken = envCredentials["BLUEBIRDPS_ACCESS_TOKEN"];
+            credentials.AccessTokenSecret = envCredentials["BLUEBIRDPS_ACCESS_TOKEN_SECRET"];
+
+            if (envCredentials["BLUEBIRDPS_BEARER_TOKEN"] != null)
+            {
+                credentials.BearerToken = envCredentials["BLUEBIRDPS_BEARER_TOKEN"];
+            }
+
+            return credentials;
+        }
+
+        internal static string ReadCredentialsFromFile()
         {
             return PSCommands.GetContents(Config.credentialsPath);
         }
 
-        internal static OAuth ConvertCredentialsFromFile(string input)
+        internal static OAuth GetCredentialsFromFile(string input)
         {
             SecureString credentialsFromDisk = PSCommands.ConvertToSecureString(input);
             string stringCredentials = PSCommands.ConvertFromSecureString(credentialsFromDisk, true);
@@ -72,12 +116,16 @@ namespace BluebirdPS.Core
             return JsonConverters.ConvertFromJson<OAuth>(stringCredentials);
         }
 
-        internal static void ConvertCredentialsForFile()
+        internal static string ConvertCredentialsForFile()
         {
             string oAuthString = JsonConverters.ConvertToJson(oauth);
             SecureString secureOAuth = PSCommands.ConvertToSecureString(oAuthString, true);
-            string credentialsToFile = PSCommands.ConvertFromSecureString(secureOAuth);
-            File.WriteAllText(Config.credentialsPath, credentialsToFile);
+            return PSCommands.ConvertFromSecureString(secureOAuth);
+        }
+
+        internal static void SaveCredentialsToFile()
+        {
+            File.WriteAllText(Config.credentialsPath, ConvertCredentialsForFile());
         }
     }
 }
