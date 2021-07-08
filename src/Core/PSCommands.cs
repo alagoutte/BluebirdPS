@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using System.Management.Automation;
 using System.Security;
 
@@ -8,10 +9,14 @@ namespace BluebirdPS.Core
     {
         internal static string GetContents(string path)
         {
-            using PowerShell pwsh = PowerShell.Create(RunspaceMode.CurrentRunspace);
-            return pwsh.AddCommand("Get-Content")
-                    .AddParameter("Path", path)
-                    .Invoke<string>().ToList().First();
+            if (File.Exists(path))
+            {
+                using PowerShell pwsh = PowerShell.Create(RunspaceMode.CurrentRunspace);
+                return pwsh.AddCommand("Get-Content")
+                        .AddParameter("Path", path)
+                        .Invoke<string>().ToList().First();
+            }
+            return null;
         }
 
         internal static SecureString ReadHost(string prompt, bool AsSecureString = false)

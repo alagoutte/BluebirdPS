@@ -1,4 +1,5 @@
-﻿using BluebirdPS.Core;
+﻿using BluebirdPS.Cmdlets.Base;
+using BluebirdPS.Core;
 using BluebirdPS.Models;
 using System.Management.Automation;
 using System.Security;
@@ -6,7 +7,7 @@ using System.Security;
 namespace BluebirdPS.Cmdlets.API.Authentication
 {
     [Cmdlet(VerbsCommon.Set, "TwitterAuthentication")]
-    public class SetTwitterAuthenticationCommand : PSCmdlet
+    public class SetTwitterAuthenticationCommand : BluebirdPSAuthCmdlet
     {
 
         [Parameter()]
@@ -49,6 +50,8 @@ namespace BluebirdPS.Cmdlets.API.Authentication
 
                 OAuth existingCredentials = Credentials.GetOrCreateInstance();
                 existingCredentials = newCredentials;
+
+                Credentials.SaveCredentialsToFile(oauth);
                 WriteObject(newCredentials);
             }
 

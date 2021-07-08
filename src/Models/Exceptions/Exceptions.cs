@@ -2,6 +2,13 @@
 
 namespace BluebirdPS.Models.Exceptions
 {
+    public class BluebirdPSNullCredentialsException : Exception
+    {
+        public BluebirdPSNullCredentialsException(string message) : base(message)
+        {
+        }
+    }
+
     public class BluebirdPSAuthenticationException : Exception
     {
         public BluebirdPSAuthenticationException(string message) : base(message)

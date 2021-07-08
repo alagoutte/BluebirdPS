@@ -12,33 +12,22 @@ namespace BluebirdPS.Core
     {
         static Client()
         {
-
-            //TweetinviEvents.BeforeWaitingForRequestRateLimits += BeforeWaitingForRequestRateLimits;
-            //TweetinviEvents.WaitingForRateLimit += WaitingForRateLimit;
-            //TweetinviEvents.BeforeExecutingRequest += BeforeExecutingRequest;
             TweetinviEvents.AfterExecutingRequest += AfterExecutingRequest;
             TweetinviEvents.OnTwitterException += OnTwitterException;
         }
 
         private static TwitterClient client;
-        public static TwitterClient GetOrCreateInstance(bool newInstance = false)
+        public static TwitterClient GetOrCreateInstance(TwitterCredentials twitterCredentials, Configuration configuration) => client ??= Create(twitterCredentials, configuration);
+
+        private static TwitterClient Create(TwitterCredentials twitterCredentials, Configuration configuration)
         {
+            client = new TwitterClient(twitterCredentials);
 
-            return newInstance ? Create() : client;
-
-        }
-
-        private static TwitterClient Create()
-        {
-            _ = Credentials.GetOrCreateInstance(true);
-
-            TwitterCredentials credentials = Credentials.GetTwitterCredentials();
-
-            client = new TwitterClient(credentials);
-
+            // add any Configuration values here
             client.Config.RateLimitTrackerMode = RateLimitTrackerMode.TrackOnly;
+
             TweetinviEvents.SubscribeToClientEvents(client);
-            
+
             return client;
         }
 
@@ -60,19 +49,5 @@ namespace BluebirdPS.Core
             Config.OnTwitterException.Add(e);
         }
 
-        //private static void BeforeExecutingRequest(object sender, BeforeExecutingRequestEventArgs e)
-        //{
-        //    Config.BeforeExecutingRequest.Add(e);
-        //}
-
-        //private static void WaitingForRateLimit(object sender, WaitingForRateLimitEventArgs e)
-        //{
-        //    Config.WaitingForRateLimit.Add(e);
-        //}
-
-        //private static void BeforeWaitingForRequestRateLimits(object sender, BeforeExecutingRequestEventArgs e)
-        //{
-        //    Config.BeforeWaitingForRequestRateLimits.Add(e);
-        //}
     }
 }

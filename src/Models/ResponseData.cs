@@ -28,7 +28,5 @@ namespace BluebirdPS.Models
         public string ApiVersion { get; set; }
         public dynamic ApiResponse { get; set; }
 
-        public ResponseData() { }
-
     }
 }

@@ -1,37 +1,41 @@
 ﻿using BluebirdPS.Cmdlets.Base;
 using BluebirdPS.Core;
-using BluebirdPS.Models;
 using System.Management.Automation;
 
 
 namespace BluebirdPS.Cmdlets.Authentication
 {
     [Cmdlet(VerbsData.Import, "TwitterAuthentication")]
-    public class ImportTwitterAuthenticationCommand : BluebirdPSCmdlet
+    public class ImportTwitterAuthenticationCommand : BluebirdPSAuthCmdlet
     {
+        [Parameter()]
+        public SwitchParameter PassThru { get; set; }
+
         protected override void ProcessRecord()
         {
-            if (Credentials.EnvVarContainsCredentials())
+
+            if (Credentials.HasCredentialsInEnvVars())
             {
                 WriteVerbose("Importing credentials from environment variables.");
-                Credentials.GetCredentialsFromEnvVar();
+                oauth = Credentials.ReadCredentialsFromEnvVars();
             }
             else
             {
-                try
+                WriteVerbose("Importing credentials from credentials file.");
+                oauth = Credentials.ReadCredentialsFromFile();
+            }
+
+            if (oauth.IsNull())
+            {
+                WriteWarning($"Credentials were not found in environment variables (BLUEBIRDPS_*) or in { Config.credentialsPath}");
+                WriteWarning("Please use the Set-TwitterAuthentication command to update the required API keys and secrets.");
+                WriteWarning("For more information, see conceptual help topic: Get-Help about_BluebirdPS_Credentials");
+            }
+            else
+            {
+                if (PassThru)
                 {
-                    OAuth oAuthCredentials = Credentials.GetOrCreateInstance();
-
-                    string credentialsFile = Credentials.ReadCredentialsFromFile();
-
-                    WriteVerbose("Importing credentials from credentials file.");
-                    oAuthCredentials = Credentials.GetCredentialsFromFile(credentialsFile);
-
-                }
-                catch
-                {
-                    WriteWarning("Unable to import Twitter authentication data from credentials file.");
-                    WriteWarning("Please use the Set-TwitterAuthentication command to update the required API keys and secrets.");
+                    WriteObject(oauth);
                 }
             }
         }

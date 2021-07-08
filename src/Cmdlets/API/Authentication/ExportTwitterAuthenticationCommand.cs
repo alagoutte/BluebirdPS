@@ -6,7 +6,7 @@ using System.Management.Automation;
 namespace BluebirdPS.Cmdlets.API.Authentication
 {
     [Cmdlet(VerbsData.Export, "TwitterAuthentication")]
-    public class ExportTwitterAuthenticationCommand : BluebirdPSCmdlet
+    public class ExportTwitterAuthenticationCommand : BluebirdPSAuthCmdlet
     {
         protected override void ProcessRecord()
         {
@@ -22,7 +22,7 @@ namespace BluebirdPS.Cmdlets.API.Authentication
 
             configuration.AuthLastExportDate = File.GetLastWriteTime(configuration.CredentialsPath);
 
-            Credentials.SaveCredentialsToFile();
+            Credentials.SaveCredentialsToFile(oauth);
             WriteVerbose($"Credentials saved.");
 
         }

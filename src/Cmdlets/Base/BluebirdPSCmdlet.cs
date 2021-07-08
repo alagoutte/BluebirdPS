@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
 using BluebirdPS.Core;
 using BluebirdPS.Models;
+using BluebirdPS.Models.Exceptions;
 using System.Collections.Generic;
 using System.Management.Automation;
+using System.Text;
 using Tweetinvi;
+using Tweetinvi.Models;
 using Mapper = BluebirdPS.Core.Mapper;
 
 namespace BluebirdPS.Cmdlets.Base
@@ -14,23 +17,40 @@ namespace BluebirdPS.Cmdlets.Base
         internal static List<ResponseData> history = History.GetOrCreateInstance();
     }
 
-    public abstract class BluebirdPSClientCmdlet : BluebirdPSCmdlet
+    public abstract class BluebirdPSAuthCmdlet : BluebirdPSCmdlet
+    {
+        internal static OAuth oauth = Credentials.GetOrCreateInstance();
+    }
+
+    public abstract class BluebirdPSClientCmdlet : BluebirdPSAuthCmdlet
     {
         [Parameter()]
         public SwitchParameter NoPagination { get; set; }
 
-        [Parameter()]
-        public SwitchParameter NewClient
-        {
-            get { return _forceNewClient; }
-            set { _forceNewClient = NewClient; }
-        }
-
-        internal static bool _forceNewClient;
-
         internal static IMapper mapper = Mapper.GetOrCreateInstance();
 
-        internal static TwitterClient client = Client.GetOrCreateInstance(_forceNewClient);
+        internal static TwitterClient client = Client.GetOrCreateInstance(GetTwitterCredentials(), configuration);
+
+        private static TwitterCredentials GetTwitterCredentials()
+        {
+            if (oauth.IsNull())
+            {
+                StringBuilder message = new StringBuilder();
+                message.AppendLine($"Credentials were not found in environment variables(BLUEBIRDPS_ *) or in { Config.credentialsPath}");
+                message.AppendLine("Please use the Set-TwitterAuthentication command to update the required API keys and secrets.");
+                message.AppendLine("For more information, see conceptual help topic about_BluebirdPS_Credentials");
+
+                throw new BluebirdPSNullCredentialsException(message.ToString());
+            }
+
+            return new TwitterCredentials(
+                oauth.ApiKey,
+                oauth.ApiSecret,
+                oauth.AccessToken,
+                oauth.AccessTokenSecret
+                );
+
+        }
 
     }
 

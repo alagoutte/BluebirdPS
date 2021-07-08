@@ -28,5 +28,26 @@ namespace BluebirdPS.Models
         public string AccessTokenSecret { get; set; }
         [JsonProperty()]
         public string BearerToken { get; set; }
+
+        internal bool IsNull(bool bearerToken = false)
+        {
+            if (string.IsNullOrEmpty(ApiKey) ||
+                string.IsNullOrEmpty(ApiKey) ||
+                string.IsNullOrEmpty(ApiKey) ||
+                string.IsNullOrEmpty(ApiKey)
+                )
+            {
+                return true;
+            }
+
+            if (bearerToken)
+            {
+                if (string.IsNullOrEmpty(BearerToken))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }
