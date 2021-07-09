@@ -12,18 +12,6 @@ namespace BluebirdPS.Core.MapperConverters
         {
             destination = new ResponseData();
 
-            try
-            {
-                // this does not work
-                destination.InvocationInfo = PSCommands.GetInvocationInfo();
-                destination.Command = destination.InvocationInfo.MyCommand.Name;
-            }
-            catch (Exception e)
-            {
-                // here to see the exception
-                //Console.WriteLine(e.Message);
-            }
-
             Uri endpointUri = new Uri(source.Url);
 
             destination.Timestamp = source.CompletedDateTime.DateTime;

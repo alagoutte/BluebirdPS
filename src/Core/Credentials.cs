@@ -10,8 +10,7 @@ namespace BluebirdPS.Core
         private static OAuth oauth;
         private static OAuth Create()
         {
-            oauth = new OAuth();
-            return oauth;
+            return new OAuth();
         }
 
         public static OAuth GetOrCreateInstance() => oauth ??= Create();

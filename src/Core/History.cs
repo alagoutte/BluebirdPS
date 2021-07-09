@@ -8,8 +8,7 @@ namespace BluebirdPS.Core
 
         private static List<ResponseData> Create()
         {
-            history = new List<ResponseData>();
-            return history;
+            return new List<ResponseData>();
         }
 
         public static List<ResponseData> GetOrCreateInstance() => history ??= Create();

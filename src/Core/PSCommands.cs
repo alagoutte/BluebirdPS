@@ -7,12 +7,6 @@ namespace BluebirdPS.Core
 {
     internal class PSCommands : PSCmdlet
     {
-        internal static InvocationInfo GetInvocationInfo()
-        {
-            using PowerShell pwsh = PowerShell.Create(RunspaceMode.CurrentRunspace);
-            return pwsh.Runspace.Debugger.GetCallStack().ToList().First().InvocationInfo;
-        }
-
         internal static string GetContents(string path)
         {
             if (File.Exists(path))
@@ -52,7 +46,7 @@ namespace BluebirdPS.Core
                 .Invoke<SecureString>().ToList().First();
         }
 
-        public static PSObject GetVariable(string variableName)
+        public static object GetVariable(string variableName)
         {
             using (PowerShell pwsh = PowerShell.Create(RunspaceMode.CurrentRunspace))
             {

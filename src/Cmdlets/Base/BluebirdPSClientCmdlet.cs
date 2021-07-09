@@ -1,29 +1,31 @@
 ﻿using AutoMapper;
+using BluebirdPS.Core;
 using BluebirdPS.Models;
 using BluebirdPS.Models.Exceptions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Management.Automation;
+using System.Management.Automation.Runspaces;
 using System.Text;
 using Tweetinvi;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Events;
 using Tweetinvi.Models;
+using Mapper = BluebirdPS.Core.Mapper;
 
-namespace BluebirdPS.Core
+namespace BluebirdPS.Cmdlets.Base
 {
-    internal class Client
+    public abstract class BluebirdPSClientCmdlet : BluebirdPSAuthCmdlet
     {
-        private static OAuth oauth = Credentials.GetOrCreateInstance();
-        private static Configuration configuration = Config.GetOrCreateInstance();
+        [Parameter()]
+        public SwitchParameter NoPagination { get; set; }
 
-        static Client()
-        {
-            TweetinviEvents.AfterExecutingRequest += AfterExecutingRequest;
-            TweetinviEvents.OnTwitterException += OnTwitterException;
-        }
+        internal static IMapper mapper = Mapper.GetOrCreateInstance();
 
-        private static TwitterClient client;
-        public static TwitterClient GetOrCreateInstance() => client ??= Create();
+        internal static TwitterClient client = GetOrCreateInstance();        
+
+        private static TwitterClient GetOrCreateInstance() => client ??= Create();
 
         private static TwitterClient Create()
         {
@@ -56,25 +58,26 @@ namespace BluebirdPS.Core
             // add any Configuration values here
             client.Config.RateLimitTrackerMode = RateLimitTrackerMode.TrackOnly;
 
+            TweetinviEvents.AfterExecutingRequest += AfterExecutingRequest;
+            TweetinviEvents.OnTwitterException += OnTwitterException;
             TweetinviEvents.SubscribeToClientEvents(client);
 
             return client;
         }
 
-
         private static void AfterExecutingRequest(object sender, AfterExecutingQueryEventArgs args)
         {
+            
             if (args.Exception != null)
             {
                 throw new Exception(args.Exception.Message);
             }
-
+            
             IMapper mapper = Mapper.GetOrCreateInstance();
             List<ResponseData> history = History.GetOrCreateInstance();
 
-            ResponseData historyRecord = mapper.Map<ResponseData>(args);
+            ResponseData historyRecord = mapper.Map<ResponseData>(args);               
             history.Add(historyRecord);
-
         }
 
         private static void OnTwitterException(object sender, ITwitterException e)

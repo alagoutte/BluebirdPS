@@ -1,10 +1,12 @@
 ﻿using BluebirdPS.Cmdlets.Base;
 using BluebirdPS.Core.Processors;
+using BluebirdPS.Models;
 using BluebirdPS.Models.APIV2;
 using System.Collections.Generic;
 using System.Management.Automation;
 using Tweetinvi.Exceptions;
 using Tweetinvi.Models.V2;
+using Tweetinvi.Parameters.V2;
 
 namespace BluebirdPS.Cmdlets.API.APIV2
 {
@@ -55,7 +57,7 @@ namespace BluebirdPS.Cmdlets.API.APIV2
             WriteVerbose($"Attempting to retrieve {message}.");
 
             List<object> results = GetUser(MyInvocation.BoundParameters, userList);
-            WriteObject(results, false);
+            WriteObject(results,true);
         }
 
         internal static List<object> GetUser(IDictionary<string, object> parameters, IDictionary<string, List<string>> userlist)
@@ -67,8 +69,16 @@ namespace BluebirdPS.Cmdlets.API.APIV2
             {
                 try
                 {
-                    UserV2 result = client.UsersV2.GetUserByNameAsync(configuration.AuthUserName).GetAwaiter().GetResult().User;
-                    results.Add(mapper.Map<User>(result));
+                    if (configuration.OutputType == OutputType.JSON)
+                    {
+                        string result = client.Raw.UsersV2.GetUserAsync(new GetUserByNameV2Parameters(configuration.AuthUserName) {Expansions = null }).GetAwaiter().GetResult().Content;
+                        results.Add(result);
+                    }
+                    else
+                    {
+                        UserV2 result = client.UsersV2.GetUserByNameAsync(configuration.AuthUserName).GetAwaiter().GetResult().User;
+                        results.Add(mapper.Map<User>(result));
+                    }                    
                 }
                 catch (TwitterException ex)
                 {
@@ -84,14 +94,15 @@ namespace BluebirdPS.Cmdlets.API.APIV2
                     {
                         UserV2Response apiResponse = client.UsersV2.GetUserByNameAsync(string.Join(",", userlist["Names"])).GetAwaiter().GetResult();
                         results.Add(mapper.Map<User>(apiResponse.User));
-                    } else
+                    }
+                    else
                     {
                         UsersV2Response apiResponse = client.UsersV2.GetUsersByNameAsync(string.Join(",", userlist["Names"])).GetAwaiter().GetResult();
                         foreach (UserV2 result in apiResponse.Users)
                         {
                             results.Add(mapper.Map<User>(result));
                         }
-                    }                    
+                    }
                 }
                 catch (TwitterException ex)
                 {
@@ -107,7 +118,8 @@ namespace BluebirdPS.Cmdlets.API.APIV2
                     {
                         UserV2Response apiResponse = client.UsersV2.GetUserByIdAsync(string.Join(",", userlist["Ids"])).GetAwaiter().GetResult();
                         results.Add(mapper.Map<User>(apiResponse.User));
-                    } else
+                    }
+                    else
                     {
                         UsersV2Response apiResponse = client.UsersV2.GetUsersByIdAsync(string.Join(",", userlist["Ids"])).GetAwaiter().GetResult();
                         foreach (UserV2 result in apiResponse.Users)

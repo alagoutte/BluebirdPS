@@ -23,7 +23,7 @@ namespace BluebirdPS.Models
         public int? ResponseTime { get; set; }
         public int? RateLimit { get; set; }
         public int? RateLimitRemaining { get; set; }
-        public DateTime RateLimitReset { get; set; }
+        public DateTime? RateLimitReset { get; set; }
         public Dictionary<string, IEnumerable<string>> HeaderResponse { get; set; }
         public string ApiVersion { get; set; }
         public dynamic ApiResponse { get; set; }
