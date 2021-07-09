@@ -9,7 +9,6 @@ namespace BluebirdPS.Cmdlets.API.Authentication
     [Cmdlet(VerbsCommon.Set, "TwitterAuthentication")]
     public class SetTwitterAuthenticationCommand : BluebirdPSAuthCmdlet
     {
-
         [Parameter()]
         public SecureString ApiKey { get; set; }
         [Parameter()]
@@ -40,7 +39,7 @@ namespace BluebirdPS.Cmdlets.API.Authentication
                     AccessTokenSecret = PSCommands.ReadHost("Access Token Secret", true);
                 }
 
-                OAuth newCredentials = new OAuth()
+                oauth = new OAuth()
                 {
                     ApiKey = PSCommands.ConvertFromSecureString(ApiKey, true),
                     ApiSecret = PSCommands.ConvertFromSecureString(ApiSecret, true),
@@ -48,11 +47,13 @@ namespace BluebirdPS.Cmdlets.API.Authentication
                     AccessTokenSecret = PSCommands.ConvertFromSecureString(AccessTokenSecret, true)
                 };
 
-                OAuth existingCredentials = Credentials.GetOrCreateInstance();
-                existingCredentials = newCredentials;
-
                 Credentials.SaveCredentialsToFile(oauth);
-                WriteObject(newCredentials);
+                WriteVerbose($"Credentials saved to {Config.credentialsPath}");
+
+                if (PassThru)
+                {
+                    WriteObject(oauth);
+                }
             }
 
             catch

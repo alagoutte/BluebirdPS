@@ -2,7 +2,6 @@
 using BluebirdPS.Models;
 using System;
 using System.Linq;
-using System.Management.Automation;
 using Tweetinvi.Events;
 
 namespace BluebirdPS.Core.MapperConverters
@@ -16,12 +15,14 @@ namespace BluebirdPS.Core.MapperConverters
             try
             {
                 // this does not work
-                using PowerShell pwsh = PowerShell.Create(RunspaceMode.NewRunspace);
-                CallStackFrame _callStackFrame = pwsh.Runspace.Debugger.GetCallStack().ToList().First();
-                destination.Command = _callStackFrame.InvocationInfo.MyCommand.Name;
-                destination.InvocationInfo = _callStackFrame.InvocationInfo;
+                destination.InvocationInfo = PSCommands.GetInvocationInfo();
+                destination.Command = destination.InvocationInfo.MyCommand.Name;
             }
-            catch { }
+            catch (Exception e)
+            {
+                // here to see the exception
+                //Console.WriteLine(e.Message);
+            }
 
             Uri endpointUri = new Uri(source.Url);
 
@@ -32,7 +33,21 @@ namespace BluebirdPS.Core.MapperConverters
             destination.QueryString = endpointUri.Query;
             //destination.Body = null;
             //destination.Form = null;
-            destination.OAuthVersion = OAuthVersion.OAuth1a;
+
+            string authzHeader = source.TwitterQuery.AuthorizationHeader;
+            if (authzHeader.Contains("OAuth"))
+            {
+                destination.OAuthVersion = OAuthVersion.OAuth1a;
+            }
+            else if (authzHeader.Contains("Bearer"))
+            {
+                destination.OAuthVersion = OAuthVersion.OAuth2Bearer;
+            }
+            else if (authzHeader.Contains("Basic"))
+            {
+                destination.OAuthVersion = OAuthVersion.Basic;
+            }
+
             //destination.Status = null;
             if (source.HttpHeaders.ContainsKey("Server"))
             {
@@ -44,9 +59,12 @@ namespace BluebirdPS.Core.MapperConverters
                 destination.ResponseTime = int.Parse(source.HttpHeaders["x-response-time"].First());
             }
 
-            destination.RateLimit = source.QueryRateLimit.Limit;
-            destination.RateLimitRemaining = source.QueryRateLimit.Remaining;
-            destination.RateLimitReset = source.QueryRateLimit.ResetDateTime;
+            if (source.QueryRateLimit != null)
+            {
+                destination.RateLimit = source.QueryRateLimit.Limit;
+                destination.RateLimitReset = source.QueryRateLimit.ResetDateTime;
+            }
+
             destination.HeaderResponse = source.HttpHeaders;
             destination.ApiVersion = endpointUri.Segments[1].Trim('/');
             destination.ApiResponse = source.HttpContent;

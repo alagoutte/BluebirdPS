@@ -8,9 +8,6 @@ namespace BluebirdPS.Cmdlets.Authentication
     [Cmdlet(VerbsData.Import, "TwitterAuthentication")]
     public class ImportTwitterAuthenticationCommand : BluebirdPSAuthCmdlet
     {
-        [Parameter()]
-        public SwitchParameter PassThru { get; set; }
-
         protected override void ProcessRecord()
         {
 

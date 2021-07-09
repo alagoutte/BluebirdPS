@@ -80,11 +80,18 @@ namespace BluebirdPS.Cmdlets.API.APIV2
             {
                 try
                 {
-                    UsersV2Response apiResponse = client.UsersV2.GetUsersByNameAsync(string.Join(",", userlist["Names"])).GetAwaiter().GetResult();
-                    foreach (UserV2 result in apiResponse.Users)
+                    if (userlist["Names"].Count == 1)
                     {
-                        results.Add(mapper.Map<User>(result));
-                    }
+                        UserV2Response apiResponse = client.UsersV2.GetUserByNameAsync(string.Join(",", userlist["Names"])).GetAwaiter().GetResult();
+                        results.Add(mapper.Map<User>(apiResponse.User));
+                    } else
+                    {
+                        UsersV2Response apiResponse = client.UsersV2.GetUsersByNameAsync(string.Join(",", userlist["Names"])).GetAwaiter().GetResult();
+                        foreach (UserV2 result in apiResponse.Users)
+                        {
+                            results.Add(mapper.Map<User>(result));
+                        }
+                    }                    
                 }
                 catch (TwitterException ex)
                 {
@@ -96,10 +103,17 @@ namespace BluebirdPS.Cmdlets.API.APIV2
             {
                 try
                 {
-                    UsersV2Response apiResponse = client.UsersV2.GetUsersByIdAsync(string.Join(",", userlist["Ids"])).GetAwaiter().GetResult();
-                    foreach (UserV2 result in apiResponse.Users)
+                    if (userlist["Ids"].Count == 1)
                     {
-                        results.Add(mapper.Map<User>(result));
+                        UserV2Response apiResponse = client.UsersV2.GetUserByIdAsync(string.Join(",", userlist["Ids"])).GetAwaiter().GetResult();
+                        results.Add(mapper.Map<User>(apiResponse.User));
+                    } else
+                    {
+                        UsersV2Response apiResponse = client.UsersV2.GetUsersByIdAsync(string.Join(",", userlist["Ids"])).GetAwaiter().GetResult();
+                        foreach (UserV2 result in apiResponse.Users)
+                        {
+                            results.Add(mapper.Map<User>(result));
+                        }
                     }
                 }
                 catch (TwitterException ex)

@@ -1,9 +1,5 @@
 ﻿using BluebirdPS.Models;
-using System.Collections.Generic;
 using System.IO;
-using System.Management.Automation;
-using Tweetinvi.Core.Exceptions;
-using Tweetinvi.Events;
 
 namespace BluebirdPS.Core
 {
@@ -60,12 +56,5 @@ namespace BluebirdPS.Core
             File.WriteAllTextAsync(configurationPath, config);
         }
 
-        internal static InvocationInfo InvocationInfo { get; set; }
-
-        //internal static List<BeforeExecutingRequestEventArgs> BeforeWaitingForRequestRateLimits { get; set; } = new List<BeforeExecutingRequestEventArgs>();
-        //internal static List<WaitingForRateLimitEventArgs> WaitingForRateLimit { get; set; } = new List<WaitingForRateLimitEventArgs>();
-        //internal static List<BeforeExecutingRequestEventArgs> BeforeExecutingRequest { get; set; } = new List<BeforeExecutingRequestEventArgs>();
-        internal static List<AfterExecutingQueryEventArgs> AfterExecutingRequest { get; set; } = new List<AfterExecutingQueryEventArgs>();
-        internal static List<ITwitterException> OnTwitterException { get; set; } = new List<ITwitterException>();
     }
 }

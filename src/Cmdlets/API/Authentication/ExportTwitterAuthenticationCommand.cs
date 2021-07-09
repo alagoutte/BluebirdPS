@@ -23,8 +23,12 @@ namespace BluebirdPS.Cmdlets.API.Authentication
             configuration.AuthLastExportDate = File.GetLastWriteTime(configuration.CredentialsPath);
 
             Credentials.SaveCredentialsToFile(oauth);
-            WriteVerbose($"Credentials saved.");
+            WriteVerbose($"Credentials saved to {Config.credentialsPath}");
 
+            if (PassThru)
+            {
+                WriteObject(oauth);
+            }
         }
     }
 }

@@ -5,8 +5,14 @@ using System.Security;
 
 namespace BluebirdPS.Core
 {
-    internal class PSCommands
+    internal class PSCommands : PSCmdlet
     {
+        internal static InvocationInfo GetInvocationInfo()
+        {
+            using PowerShell pwsh = PowerShell.Create(RunspaceMode.CurrentRunspace);
+            return pwsh.Runspace.Debugger.GetCallStack().ToList().First().InvocationInfo;
+        }
+
         internal static string GetContents(string path)
         {
             if (File.Exists(path))

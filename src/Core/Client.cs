@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
 using BluebirdPS.Models;
+using BluebirdPS.Models.Exceptions;
+using System;
 using System.Collections.Generic;
+using System.Text;
 using Tweetinvi;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Events;
@@ -10,6 +13,9 @@ namespace BluebirdPS.Core
 {
     internal class Client
     {
+        private static OAuth oauth = Credentials.GetOrCreateInstance();
+        private static Configuration configuration = Config.GetOrCreateInstance();
+
         static Client()
         {
             TweetinviEvents.AfterExecutingRequest += AfterExecutingRequest;
@@ -17,11 +23,35 @@ namespace BluebirdPS.Core
         }
 
         private static TwitterClient client;
-        public static TwitterClient GetOrCreateInstance(TwitterCredentials twitterCredentials, Configuration configuration) => client ??= Create(twitterCredentials, configuration);
+        public static TwitterClient GetOrCreateInstance() => client ??= Create();
 
-        private static TwitterClient Create(TwitterCredentials twitterCredentials, Configuration configuration)
+        private static TwitterClient Create()
         {
-            client = new TwitterClient(twitterCredentials);
+            if (Credentials.HasCredentialsInEnvVars())
+            {
+                oauth = Credentials.ReadCredentialsFromEnvVars();
+            }
+            else
+            {
+                oauth = Credentials.ReadCredentialsFromFile();
+            }
+
+            if (oauth.IsNull())
+            {
+                StringBuilder message = new StringBuilder();
+                message.AppendLine($"Credentials were not found in environment variables(BLUEBIRDPS_ *) or in { Config.credentialsPath}");
+                message.AppendLine("Please use the Set-TwitterAuthentication command to update the required API keys and secrets.");
+                message.AppendLine("For more information, see conceptual help topic about_BluebirdPS_Credentials");
+
+                throw new BluebirdPSNullCredentialsException(message.ToString());
+            }
+
+            client = new TwitterClient(new TwitterCredentials(
+                    oauth.ApiKey,
+                    oauth.ApiSecret,
+                    oauth.AccessToken,
+                    oauth.AccessTokenSecret
+                    ));
 
             // add any Configuration values here
             client.Config.RateLimitTrackerMode = RateLimitTrackerMode.TrackOnly;
@@ -31,22 +61,25 @@ namespace BluebirdPS.Core
             return client;
         }
 
-        private static List<ResponseData> history = History.GetOrCreateInstance();
+
         private static void AfterExecutingRequest(object sender, AfterExecutingQueryEventArgs args)
         {
-            if (args.Url != "https://api.twitter.com/1.1/application/rate_limit_status.json")
+            if (args.Exception != null)
             {
-                IMapper mapper = Mapper.GetOrCreateInstance();
-                ResponseData historyRecord = mapper.Map<ResponseData>(args);
-                history.Add(historyRecord);
-
-                Config.AfterExecutingRequest.Add(args);
+                throw new Exception(args.Exception.Message);
             }
+
+            IMapper mapper = Mapper.GetOrCreateInstance();
+            List<ResponseData> history = History.GetOrCreateInstance();
+
+            ResponseData historyRecord = mapper.Map<ResponseData>(args);
+            history.Add(historyRecord);
+
         }
 
         private static void OnTwitterException(object sender, ITwitterException e)
         {
-            Config.OnTwitterException.Add(e);
+            System.Console.WriteLine(e.Content);
         }
 
     }
