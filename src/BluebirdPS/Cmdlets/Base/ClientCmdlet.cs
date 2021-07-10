@@ -4,9 +4,7 @@ using BluebirdPS.Models;
 using BluebirdPS.Models.Exceptions;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Management.Automation;
-using System.Management.Automation.Runspaces;
 using System.Text;
 using Tweetinvi;
 using Tweetinvi.Core.Exceptions;
@@ -16,14 +14,14 @@ using Mapper = BluebirdPS.Core.Mapper;
 
 namespace BluebirdPS.Cmdlets.Base
 {
-    public abstract class BluebirdPSClientCmdlet : BluebirdPSAuthCmdlet
+    public abstract class ClientCmdlet : AuthCmdlet
     {
         [Parameter()]
         public SwitchParameter NoPagination { get; set; }
 
         internal static IMapper mapper = Mapper.GetOrCreateInstance();
 
-        internal static TwitterClient client = GetOrCreateInstance();        
+        internal static TwitterClient client = GetOrCreateInstance();
 
         private static TwitterClient GetOrCreateInstance() => client ??= Create();
 
@@ -67,16 +65,16 @@ namespace BluebirdPS.Cmdlets.Base
 
         private static void AfterExecutingRequest(object sender, AfterExecutingQueryEventArgs args)
         {
-            
+
             if (args.Exception != null)
             {
                 throw new Exception(args.Exception.Message);
             }
-            
-            IMapper mapper = Mapper.GetOrCreateInstance();
-            List<ResponseData> history = History.GetOrCreateInstance();
 
-            ResponseData historyRecord = mapper.Map<ResponseData>(args);               
+            IMapper mapper = Mapper.GetOrCreateInstance();
+            List<ResponseData> history = Core.History.GetOrCreateInstance();
+
+            ResponseData historyRecord = mapper.Map<ResponseData>(args);
             history.Add(historyRecord);
         }
 

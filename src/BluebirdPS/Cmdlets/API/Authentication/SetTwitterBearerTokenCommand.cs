@@ -6,7 +6,7 @@ using System.Security;
 namespace BluebirdPS.Cmdlets.API.Authentication
 {
     [Cmdlet(VerbsCommon.Set, "TwitterBearerToken")]
-    public class SetTwitterBearerTokenCommand : BluebirdPSAuthCmdlet
+    public class SetTwitterBearerTokenCommand : AuthCmdlet
     {
         [Parameter()]
         public SecureString BearerToken { get; set; }

@@ -4,11 +4,11 @@ using System.Management.Automation;
 
 namespace BluebirdPS.Cmdlets.Base
 {
-    public abstract class BluebirdPSAuthCmdlet : BluebirdPSCmdlet
+    public abstract class AuthCmdlet : BaseCmdlet
     {
         [Parameter()]
         public SwitchParameter PassThru { get; set; }
-        
+
         internal static OAuth oauth = Credentials.GetOrCreateInstance();
     }
 }

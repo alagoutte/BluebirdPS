@@ -6,11 +6,11 @@ namespace BluebirdPS.Cmdlets.Helpers
 {
     [Cmdlet(VerbsCommon.Get, "BluebirdPSConfiguration")]
     [OutputType(typeof(Configuration))]
-    public class GetBluebirdPSConfigurationCommand : BluebirdPSCmdlet
+    public class GetBluebirdPSConfigurationCommand : BaseCmdlet
     {
         protected override void ProcessRecord()
         {
-            WriteObject(configuration);
+            WriteObject(Configuration);
         }
     }
 }

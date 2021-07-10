@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <LangVersion>latest</LangVersion>
     <Company>thedavecarroll</Company>
     <Authors>Dave Carroll</Authors>
     <Title>BluebirdPS</Title>
@@ -22,10 +23,6 @@
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="System.Management.Automation" Version="7.0.0" />
     <PackageReference Include="TweetinviAPI" Version="5.0.4" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Cmdlets\API\APIV1\" />
   </ItemGroup>
 
 </Project>

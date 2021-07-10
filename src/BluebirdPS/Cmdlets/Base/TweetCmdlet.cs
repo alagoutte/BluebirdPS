@@ -3,7 +3,7 @@ using System.Management.Automation;
 
 namespace BluebirdPS.Cmdlets.Base
 {
-    public abstract class BluebirdPSTweetCmdlet : BluebirdPSClientCmdlet
+    public abstract class TweetCmdlet : ClientCmdlet
     {
         [Parameter()]
         public SwitchParameter NonPublicMetrics { get; set; }

@@ -4,7 +4,7 @@ using System.Management.Automation;
 namespace BluebirdPS.Cmdlets.Helpers
 {
     [Cmdlet(VerbsData.Import, "BluebirdPSConfiguration")]
-    public class ImportBluebirdPSConfigurationCommand : BluebirdPSCmdlet
+    public class ImportBluebirdPSConfigurationCommand : BaseCmdlet
     {
         protected override void ProcessRecord()
         {

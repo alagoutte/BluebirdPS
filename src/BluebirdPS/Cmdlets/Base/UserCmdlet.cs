@@ -3,7 +3,7 @@ using System.Management.Automation;
 
 namespace BluebirdPS.Cmdlets.Base
 {
-    public abstract class BluebirdPSUserCmdlet : BluebirdPSClientCmdlet
+    public abstract class UserCmdlet : ClientCmdlet
     {
         [Parameter()]
         public SwitchParameter IncludeExpansions { get; set; }

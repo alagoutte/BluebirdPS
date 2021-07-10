@@ -6,21 +6,21 @@ using System.Management.Automation;
 namespace BluebirdPS.Cmdlets.API.Authentication
 {
     [Cmdlet(VerbsData.Export, "TwitterAuthentication")]
-    public class ExportTwitterAuthenticationCommand : BluebirdPSAuthCmdlet
+    public class ExportTwitterAuthenticationCommand : AuthCmdlet
     {
         protected override void ProcessRecord()
         {
-            if (!File.Exists(configuration.CredentialsPath))
+            if (!File.Exists(Configuration.CredentialsPath))
             {
-                WriteVerbose($"Creating new credentials file: {configuration.CredentialsPath}");
-                _ = File.Create(configuration.CredentialsPath);
+                WriteVerbose($"Creating new credentials file: {Configuration.CredentialsPath}");
+                _ = File.Create(Configuration.CredentialsPath);
             }
             else
             {
-                WriteVerbose($"Saving to existing credentials file: {configuration.CredentialsPath}");
+                WriteVerbose($"Saving to existing credentials file: {Configuration.CredentialsPath}");
             }
 
-            configuration.AuthLastExportDate = File.GetLastWriteTime(configuration.CredentialsPath);
+            Configuration.AuthLastExportDate = File.GetLastWriteTime(Configuration.CredentialsPath);
 
             Credentials.SaveCredentialsToFile(oauth);
             WriteVerbose($"Credentials saved to {Config.credentialsPath}");

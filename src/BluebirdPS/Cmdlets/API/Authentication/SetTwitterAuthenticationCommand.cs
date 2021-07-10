@@ -7,7 +7,7 @@ using System.Security;
 namespace BluebirdPS.Cmdlets.API.Authentication
 {
     [Cmdlet(VerbsCommon.Set, "TwitterAuthentication")]
-    public class SetTwitterAuthenticationCommand : BluebirdPSAuthCmdlet
+    public class SetTwitterAuthenticationCommand : AuthCmdlet
     {
         [Parameter()]
         public SecureString ApiKey { get; set; }

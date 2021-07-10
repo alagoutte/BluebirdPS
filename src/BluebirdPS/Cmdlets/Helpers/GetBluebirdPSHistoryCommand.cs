@@ -6,11 +6,11 @@ namespace BluebirdPS.Cmdlets.Helpers
 {
     [Cmdlet(VerbsCommon.Get, "BluebirdPSHistory")]
     [OutputType(typeof(List<ResponseData>))]
-    public class GetBluebirdPSHistoryCommand : BluebirdPSCmdlet
+    public class GetBluebirdPSHistoryCommand : BaseCmdlet
     {
         protected override void ProcessRecord()
         {
-            WriteObject(history, true);
+            WriteObject(History, true);
         }
     }
 }

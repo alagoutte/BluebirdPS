@@ -9,7 +9,7 @@ using System.Reflection;
 namespace BluebirdPS.Cmdlets.Helpers
 {
     [Cmdlet(VerbsCommon.Set, "BluebirdPSConfiguration")]
-    public class SetBluebirdPSConfigurationCommand : BluebirdPSCmdlet
+    public class SetBluebirdPSConfigurationCommand : BaseCmdlet
     {
         [Parameter]
         public RateLimitAction RateLimitAction { get; set; }
@@ -30,10 +30,10 @@ namespace BluebirdPS.Cmdlets.Helpers
                 string message = $"Setting configuration value for {config} to '{configValue}'.";
                 WriteVerbose(message);
 
-                PropertyInfo property = configuration.GetType().GetProperty(config);
+                PropertyInfo property = Configuration.GetType().GetProperty(config);
                 if (property != null)
                 {
-                    property.SetValue(configuration, configValue);
+                    property.SetValue(Configuration, configValue);
                 }
             }
 
