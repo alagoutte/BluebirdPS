@@ -1,0 +1,20 @@
+﻿using System;
+using BluebirdPS.Models;
+
+namespace BluebirdPS.Core
+{
+    public class Configuration
+    {
+        public string AuthUserId { get; set; }
+        public string AuthUserName { get; set; }
+        public DateTime? AuthValidationDate { get; set; }
+        public DateTime? AuthLastExportDate { get; set; }
+        public RateLimitAction RateLimitAction { get; set; }
+        public int RateLimitThreshold { get; set; }
+        public string ConfigurationPath { get; set; }
+        public string CredentialsPath { get; set; }
+        public OutputType OutputType { get; set; }
+        public Configuration() { }
+
+    }
+}
