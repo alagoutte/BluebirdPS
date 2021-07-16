@@ -7,7 +7,7 @@ namespace BluebirdPS.Models.APIV2.Metrics
     {
         public override string ToString()
         {
-            List<string> displayMetrics = new List<string>();
+            List<string> displayMetrics = new();
             foreach (PropertyInfo property in GetType().GetProperties())
             {
                 var value = property.GetValue(this, null);

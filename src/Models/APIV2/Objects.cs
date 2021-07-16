@@ -12,7 +12,7 @@ namespace BluebirdPS.Models.APIV2
 
         public static List<object> GetEntities(dynamic input)
         {
-            List<object> entities = new List<object>();
+            List<object> entities = new();
 
             try
             {
@@ -213,7 +213,7 @@ namespace BluebirdPS.Models.APIV2
             }
             if (Core.Helpers.HasProperty(input, "images"))
             {
-                List<Image> images = new List<Image>();
+                List<Image> images = new();
                 foreach (dynamic pic in input.images)
                 {
                     images.Add(new Image(pic));
@@ -271,7 +271,7 @@ namespace BluebirdPS.Models.APIV2
         public List<PollOptions> Options { get; set; }
         public long TotalVotes { get; set; }
         public long Duration { get; set; }
-        public DateTime EndDateTime { get; set; }
+        public DateTime? EndDateTime { get; set; }
         public string VotingStatus { get; set; }
 
         public Poll() { }
@@ -284,10 +284,10 @@ namespace BluebirdPS.Models.APIV2
             Duration = input.duration_minutes;
             VotingStatus = Core.Helpers.ToTitleCase(input.voting_status);
 
-            List<PollOptions> pollOptions = new List<PollOptions>();
+            List<PollOptions> pollOptions = new();
             foreach (dynamic item in input.options)
             {
-                PollOptions option = new PollOptions(item);
+                PollOptions option = new(item);
                 pollOptions.Add(option);
                 TotalVotes += option.Votes;
             }

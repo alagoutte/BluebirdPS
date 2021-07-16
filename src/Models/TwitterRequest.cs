@@ -28,8 +28,8 @@ namespace BluebirdPS.Models
 
         public InvocationInfo InvocationInfo { get; private set; }
 
-        private bool _hasExpansionsIncluded { get; set; }
-        private bool _hasFieldsIncluded { get; set; }
+        private bool HasExpansionsIncluded { get; set; }
+        private bool HasFieldsIncluded { get; set; }
 
         // ----------------------------------------------------------------------------------------
         // Constructor
@@ -88,7 +88,7 @@ namespace BluebirdPS.Models
         // Public methods
         private void SetFields()
         {
-            if (_hasFieldsIncluded == false && ExpansionType != null)
+            if (HasFieldsIncluded == false && ExpansionType != null)
             {
                 if (ExpansionType == ExpansionTypes.Tweet)
                 {
@@ -98,13 +98,13 @@ namespace BluebirdPS.Models
                 {
                     Query.Add("user.fields", ObjectFields.GetFieldList("User"));
                 }
-                _hasFieldsIncluded = true;
+                HasFieldsIncluded = true;
             }
         }
 
         public void SetExpansions()
         {
-            if (_hasExpansionsIncluded == false && ExpansionType != null && IncludeExpansions == true)
+            if (HasExpansionsIncluded == false && ExpansionType != null && IncludeExpansions == true)
             {
                 if (ExpansionType == ExpansionTypes.Tweet)
                 {
@@ -120,7 +120,7 @@ namespace BluebirdPS.Models
                     Query.Add("tweet.fields", ObjectFields.GetFieldList("Tweet", NonPublicMetrics, OrganicMetrics, PromotedMetrics));
                 }
             }
-            _hasExpansionsIncluded = true;
+            HasExpansionsIncluded = true;
         }
 
         //public void InvokeRequest()

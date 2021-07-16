@@ -1,7 +1,6 @@
 ﻿using System;
-using BluebirdPS.Models;
 
-namespace BluebirdPS.Core
+namespace BluebirdPS.Models
 {
     public class Configuration
     {

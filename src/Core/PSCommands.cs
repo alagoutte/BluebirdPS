@@ -66,7 +66,7 @@ namespace BluebirdPS.Core
                 .AddParameter("Name", variableName)
                 .AddParameter("Value", value)
                 .AddParameter("Scope", scope)
-                .Invoke().ToList().First();
+                .Invoke();
         }
     }
 }

@@ -4,14 +4,19 @@ namespace BluebirdPS.Models.APIV2
 {
     public static class ExpansionFields
     {
-        public static List<string> Tweet => new List<string>()
+        public static List<string> Tweet => new()
         {
-            "author_id","referenced_tweets.id","referenced_tweets.id.author_id",
-            "entities.mentions.username","attachments.poll_ids","attachments.media_keys",
-            "in_reply_to_user_id","geo.place_id"
+            "author_id",
+            "referenced_tweets.id",
+            "referenced_tweets.id.author_id",
+            "entities.mentions.username",
+            "attachments.poll_ids",
+            "attachments.media_keys",
+            "in_reply_to_user_id",
+            "geo.place_id"
         };
 
-        public static List<string> User => new List<string>()
+        public static List<string> User => new()
         {
             "pinned_tweet_id"
         };

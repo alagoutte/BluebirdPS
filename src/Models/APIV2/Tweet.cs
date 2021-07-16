@@ -83,7 +83,7 @@ namespace BluebirdPS.Models.APIV2
 
                 if (Core.Helpers.HasProperty(input, "referenced_tweets"))
                 {
-                    List<ReferencedTweet> referencedTweets = new List<ReferencedTweet>();
+                    List<ReferencedTweet> referencedTweets = new();
                     foreach (dynamic refTweet in input.referenced_tweets)
                     {
                         referencedTweets.Add(new ReferencedTweet(refTweet));
@@ -93,7 +93,7 @@ namespace BluebirdPS.Models.APIV2
 
                 if (Core.Helpers.HasProperty(input, "context_annotations"))
                 {
-                    List<ContextAnnotation> contextAnnotations = new List<ContextAnnotation>();
+                    List<ContextAnnotation> contextAnnotations = new();
 
                 }
 

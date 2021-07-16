@@ -45,9 +45,9 @@ namespace BluebirdPS.Core
             }
         }
 
-        public static string ConvertToV1Date(DateTime input)
+        public static string ConvertToV1Date(DateTime? input)
         {
-            return input != null ? input.ToUniversalTime().ToString("s", CultureInfo.InvariantCulture) + "Z" : null;
+            return input != null ? input?.ToUniversalTime().ToString("s", CultureInfo.InvariantCulture) + "Z" : null;
         }
 
     }

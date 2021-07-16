@@ -12,6 +12,8 @@
     <PackageProjectUrl>https://docs.bluebirdps.dev/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/thedavecarroll/BluebirdPS/</RepositoryUrl>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -23,6 +25,10 @@
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="System.Management.Automation" Version="7.0.0" />
     <PackageReference Include="TweetinviAPI" Version="5.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Cmdlets\API\V2\Tweets\" />
   </ItemGroup>
 
 </Project>

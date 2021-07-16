@@ -45,11 +45,11 @@ namespace BluebirdPS.Models.APIV1
             TrendLocation = input.trendlocation;
         }
 
-        private TimeZoneInfo GetTimeZoneInfo(dynamic input)
+        private static TimeZoneInfo GetTimeZoneInfo(dynamic input)
         {
             string timeZoneName = input.time_zone.tzinfo_name;
             string timeZoneDisplayName = input.time_zone.name;
-            TimeSpan offset = new TimeSpan(0, 0, int.Parse(input.time_zone.utc_offset.ToString()));
+            TimeSpan offset = new(0, 0, int.Parse(input.time_zone.utc_offset.ToString()));
 
             return TimeZoneInfo.CreateCustomTimeZone(timeZoneName, offset, timeZoneDisplayName, null);
         }

@@ -14,7 +14,7 @@ namespace BluebirdPS.Models.APIV2
 
             try
             {
-                List<string> attachments = new List<string>();
+                List<string> attachments = new();
 
                 if (Core.Helpers.HasProperty(input, "poll_ids"))
                 {

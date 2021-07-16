@@ -1,5 +1,5 @@
 ﻿using System.Management.Automation;
-using BluebirdPS.Models.Exceptions;
+using BluebirdPS.Exceptions;
 using Tweetinvi.Exceptions;
 
 namespace BluebirdPS.Core.Processors
