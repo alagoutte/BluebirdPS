@@ -2,8 +2,8 @@
 
 namespace BluebirdPS.Cmdlets.API.V1.Media
 {
-    [Cmdlet(VerbsCommon.Get, "TwitterList")]
-    public class GetTwitterListCommand : UserCmdlet
+    [Cmdlet(VerbsCommunications.Send, "TwitterMedia")]
+    public class SendTwitterMediaCommand : UserCmdlet
     {
 
     }
