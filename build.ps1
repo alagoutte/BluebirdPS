@@ -2,7 +2,7 @@
 param(
     # Build task(s) to execute
     [Parameter(ParameterSetName = 'task', position = 0)]
-    [ValidateSet('default','Build','Analyze','Test','Init','UpdateMarkdownHelp')]
+    [ValidateSet('default','Build','Analyze','Test','Init','DotNet')]
     [string[]]$Task = 'default',
 
     # Bootstrap dependencies

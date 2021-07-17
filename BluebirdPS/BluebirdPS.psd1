@@ -2,7 +2,6 @@
 @{
   Copyright = '2020-2021'
   PowerShellVersion = '7.0'
-  RootModule = 'BluebirdPS.psm1'
   CompanyName = 'thedavecarroll'
   ModuleVersion = '0.8.0'
   Author = 'Dave Carroll'
@@ -10,7 +9,7 @@
   FileList = @()
   PrivateData = @{
     PSData = @{
-      Tags = @('Twitter-Client','Twitter-API','Twitter','Tweet','Automation','Social-Media')
+      Tags = @('Twitter-Client','Twitter-API','Twitter','Tweet','Automation','Social-Media','PSEdition_Core','Windows','Linux','MacOS')
       ReleaseNotes = '## 0.7.0 - 2021-06-26
 
       Bugfix and Feature; Update Strongly Recommended
@@ -41,19 +40,6 @@
       ProjectUri = 'https://github.com/thedavecarroll/BluebirdPS'
     }
   }
-  CmdletsToExport = 'Invoke-TwitterRequest',
-    'Get-BluebirdPSConfiguration',
-    'Set-BluebirdPSConfiguration',
-    'Import-BluebirdPSConfiguration',
-    'Export-BluebirdPSConfiguration',
-    'Get-BluebirdPSHistory',
-    'Get-TwitterUser',
-    'Test-TwitterAuthentication',
-    'Import-TwitterAuthentication',
-    'Set-TwitterAuthentication',
-    'Export-TwitterAuthentication',
-    'Get-TweetInviClient',
-    'Set-TwitterBearerToken'
 
   VariablesToExport = @()
   Description = 'A Twitter Automation Client for PowerShell 7. Tweet, retweet, send direct messages, manage lists, and more.'

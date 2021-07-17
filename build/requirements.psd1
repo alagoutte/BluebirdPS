@@ -8,10 +8,10 @@
     'BuildHelpers' = @{
         Version = '2.0.16'
     }
-    'PowerShellBuild' = @{
+<#     'PowerShellBuild' = @{
         RequiredVersion = '0.5.0-beta1'
         AllowPrerelease = $true
-    }
+    } #>
     'PSScriptAnalyzer' = @{
         Version = '1.19.1'
     }

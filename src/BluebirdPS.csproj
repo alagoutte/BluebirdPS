@@ -27,8 +27,4 @@
     <PackageReference Include="TweetinviAPI" Version="5.0.4" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Cmdlets\API\V2\Tweets\" />
-  </ItemGroup>
-
 </Project>
